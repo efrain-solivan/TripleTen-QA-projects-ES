@@ -1,41 +1,17 @@
-# TripleTen QA Engineering Projects
-### Efrain Solivan | Software Quality Assurance Engineer
+# Urban Routes — QA Engineering Portfolio
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-efrain--solivan-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/efrain-solivan-/)
-[![Email](https://img.shields.io/badge/Email-rainsol.es%40gmail.com-red?style=flat&logo=gmail)](mailto:rainsol.es@gmail.com)
-
----
-
-## About This Repository
-
-This repository contains QA project work completed through the **TripleTen Software Quality Assurance Engineering Apprenticeship Program** (November 2025 – Present), executed within a structured, simulated Agile sprint environment.
-
-Projects cover the full QA lifecycle: manual testing, API validation, database integrity checks, and Selenium/Pytest UI automation.
+**Program:** TripleTen QA Engineering Apprenticeship  
+**Project:** Urban Routes — Ride-Hailing Web Application  
+**Author:** Efrain Solivan  
+**Test Stack:** SQL · Postman · Selenium WebDriver · Pytest · Jira
 
 ---
 
-## Projects
+## Project Description
 
-### Urban Routes QA Project
-**Platform:** Web application (ride-booking module)  
-**Environment:** Simulated Agile sprint environment  
-**Tools Used:** TestRail · Postman · Selenium WebDriver · Pytest · Jira · Chrome DevTools · SQL
+Urban Routes is a web-based transportation application that allows users to enter an origin and destination address, select a service type (Optimal, Flash, Personal), choose a payment method, and request a driver. This repository documents quality assurance activities performed in the TripleTen simulation environment.
 
-#### What Was Tested
-- Full functional coverage of the Urban Routes booking module
-- RESTful API endpoints (status codes, JSON response bodies, error handling)
-- Cross-browser compatibility across Chrome, Firefox, and Edge
-- Frontend/backend data integrity via SQL JOIN queries
-- End-to-end automated UI user flows
-
-#### Results
-| Area | Output |
-|------|--------|
-| Test Cases Designed & Executed | 50+ |
-| API Endpoints Validated | 20+ |
-| Automated UI Tests (Selenium/Pytest) | 50+ |
-| Defects Logged in Jira | 30+ |
-| Browser-Specific Issues Identified | 15+ |
+> ⚠️ **Note:** All testing was conducted in the TripleTen sandbox. This does not represent work in a production environment or at a real company.
 
 ---
 
@@ -44,46 +20,133 @@ Projects cover the full QA lifecycle: manual testing, API validation, database i
 ```
 TripleTen-QA-projects-ES/
 │
-├── README.md
+├── README.md                              ← This file
 │
 ├── sql/
-│   └── urban_routes_data_integrity.sql   # JOIN queries for DB validation
+│   └── urban_routes_data_integrity.sql   ← JOIN queries for DB validation
 │
 ├── postman/
-│   └── urban_routes_api_collection.json  # Exported Postman collection
+│   └── urban_routes_api_collection.json  ← Exported Postman collection
 │
 ├── selenium/
-│   └── test_urban_routes.py              # Selenium WebDriver + Pytest scripts
+│   └── test_urban_routes.py              ← Selenium WebDriver + Pytest scripts
 │
 └── test-cases/
-    └── urban_routes_test_cases.md        # Documented test cases
+    └── urban_routes_test_cases.md        ← Documented test cases
 ```
 
 ---
 
-## Tech Stack
+## Test Coverage Areas
 
-| Category | Tools |
-|----------|-------|
-| Test Management | TestRail, Jira |
-| API Testing | Postman, REST APIs |
-| Automation | Selenium WebDriver, Pytest, Python |
-| Database | SQL (JOIN queries, data validation) |
-| Browser Tools | Chrome DevTools |
-| Version Control | Git, GitHub |
-| Methodology | Agile Scrum, SDLC, STLC |
+| Area                     | Tool                | Description                                                      |
+|--------------------------|---------------------|------------------------------------------------------------------|
+| Database integrity       | SQL (PostgreSQL)    | Validates table relationships using JOINs                        |
+| API testing              | Postman             | Verifies REST endpoints: methods, response codes, response schema |
+| UI automation            | Selenium + Pytest   | Full taxi order flow via the web interface                       |
+| Manual test cases        | Markdown / Jira     | Positive, negative, and boundary test case design                |
 
 ---
 
-## Certifications
+## Technologies Used
 
-- **TripleTen** — Software Quality Assurance Engineering (Expected: May 2026)
-- **Careerist** — QA Manual Testing Certificate (June 2022)
+- **Python 3.10+** with `pytest` and `selenium`
+- **ChromeDriver** (matched to installed browser version)
+- **Postman** v10+
+- **PostgreSQL** (TripleTen sandbox environment)
+- **Jira** for defect tracking and sprint management
 
 ---
 
-## Contact
+## How to Run the Selenium Tests
 
-- **Email:** rainsol.es@gmail.com
-- **LinkedIn:** [linkedin.com/in/efrain-solivan-](https://www.linkedin.com/in/efrain-solivan-/)
-- **Phone:** 720.755.4166
+```bash
+# 1. Install dependencies
+pip install pytest selenium
+
+# 2. Confirm ChromeDriver is on your PATH
+
+# 3. Run all tests
+pytest selenium/test_urban_routes.py -v
+
+# 4. Run a single test
+pytest selenium/test_urban_routes.py::TestOrderFlow::test_set_route -v
+```
+
+---
+
+## Defects Found — Jira Project ESP3
+
+### Sprint 1 — Map & Address Behavior
+
+| ID       | Description                                                                            | Severity | Status |
+|----------|----------------------------------------------------------------------------------------|----------|--------|
+| ESP3-1   | Selecting the "From" field auto-populates an address without user input                | Medium   | To Do  |
+| ESP3-2   | Typing "Subway" in the "To" field does not show the subway station list                | High     | To Do  |
+| ESP3-3   | Clicking the "From" field populates a random address                                   | Medium   | To Do  |
+| ESP3-4   | Map does not zoom to address pin after user inputs an address                          | Low      | To Do  |
+| ESP3-5   | Hovering near the Map mode button labels the Landscape option as "Terrain"             | Low      | To Do  |
+| ESP3-8   | Hovering near the Satellite mode button does not open the Map objects list             | Medium   | To Do  |
+| ESP3-9   | Clicking a place on the map does not properly zoom to the address pin                  | Low      | To Do  |
+| ESP3-11  | Clicking the app logo does not display the app information panel                       | Low      | To Do  |
+| ESP3-12  | Clicking an area header (e.g. Hollywood) opens the place information display           | Medium   | To Do  |
+| ESP3-13  | Clicking the "To" field auto-populates an address without user input                   | Medium   | To Do  |
+
+### Backlog — Payment Card Validation
+
+| ID       | Description                                                                            | Severity | Status |
+|----------|----------------------------------------------------------------------------------------|----------|--------|
+| ESP3-14  | App crashes when the Aero Taxi icon is clicked                                         | Critical | To Do  |
+| ESP3-15  | Aero Taxi mode activation cannot be validated                                          | High     | To Do  |
+| ESP3-16  | Card number field accepts fewer than 12 characters                                     | High     | To Do  |
+| ESP3-17  | Card number field accepts more than 12 characters                                      | High     | To Do  |
+| ESP3-18  | Card number field accepts alphabetical characters                                      | High     | To Do  |
+| ESP3-19  | Card number field accepts symbols                                                      | High     | To Do  |
+| ESP3-20  | Card number field does not auto-format on blur                                         | Medium   | To Do  |
+| ESP3-21  | Card number field accepts mixed valid/invalid card segments                            | High     | To Do  |
+| ESP3-22  | CVV/CVC field accepts fewer than 2 digits                                              | High     | To Do  |
+| ESP3-23  | CVV/CVC field accepts more than 2 digits                                               | High     | To Do  |
+
+### Backlog — API: Kits Endpoint
+
+| ID       | Description                                                                                        | Severity | Status |
+|----------|----------------------------------------------------------------------------------------------------|----------|--------|
+| ESP3-25  | POST /kits/2/products — quantity 0 returns 200 OK instead of 400 Bad Request                      | High     | To Do  |
+| ESP3-26  | POST /kits/10/products — negative quantity returns 200 OK instead of 400 Bad Request              | High     | To Do  |
+| ESP3-27  | POST /kits/10/products — non-existent product ID returns 200 OK instead of 400 Bad Request        | High     | To Do  |
+| ESP3-28  | POST /kits/10/products — empty productsList returns 200 OK instead of 400 Bad Request             | High     | To Do  |
+| ESP3-29  | POST /kits/2/products — missing ID field returns 200 OK instead of 400 Bad Request                | High     | To Do  |
+| ESP3-30  | POST /kits/3/products — missing quantity field returns 500 instead of 400                         | High     | To Do  |
+| ESP3-31  | POST /kits/3/products — string ID returns 500 Internal Server Error instead of 400                | High     | To Do  |
+| ESP3-32  | POST /kits/10/products — quantity null returns 200 OK instead of 400 Bad Request                  | High     | To Do  |
+| ESP3-36  | POST /kits/7/products — empty body {} returns 200 OK instead of 400 Bad Request                   | High     | To Do  |
+| ESP3-37  | POST /kits/7/products — nested productsList returns 500 instead of 400 Bad Request                | High     | To Do  |
+| ESP3-38  | POST /kits/-1/products — null product returns 404 Not Found instead of 400 Bad Request            | Medium   | To Do  |
+
+### Backlog — API: Fast Delivery & UI Bugs
+
+| ID       | Description                                                                                        | Severity | Status |
+|----------|----------------------------------------------------------------------------------------------------|----------|--------|
+| ESP3-39  | POST /fast-delivery — invalid XML payload returns 500 instead of 400                              | High     | To Do  |
+| ESP3-40  | POST /fast-delivery — isItPossibleToDeliver: true returned outside operating hours                 | Critical | To Do  |
+| ESP3-41  | POST /fast-delivery — delivery cost stays at 6 instead of 7 when weight/count exceeds Band 6     | High     | To Do  |
+| ESP3-42  | Order Confirmation screen total excludes delivery cost                                             | Critical | To Do  |
+| ESP3-43  | Delivery notification text is incorrectly sized and missing the temperature warning               | Medium   | To Do  |
+| ESP3-44  | Map pins do not display numerical order for pick-up points                                         | Medium   | To Do  |
+| ESP3-45  | Long restaurant names overlap surrounding text on the Dish Details screen                         | Low      | To Do  |
+| ESP3-46  | Order tracking screen omits remaining cooking time entirely                                        | High     | To Do  |
+| ESP3-47  | Delivered screen map displays incorrect pick-up location pin                                       | High     | To Do  |
+
+---
+
+## Defect Summary
+
+| Total | Critical | High | Medium | Low |
+|-------|----------|------|--------|-----|
+| 30    | 3        | 19   | 6      | 4   |
+
+---
+
+## Author Notes
+
+Selenium scripts use a lite Page Object Model (POM) pattern to separate locators from test logic. Test cases follow the TripleTen standard template: ID, title, preconditions, steps, expected result, actual result, status. All defects were logged in Jira under project ESP3 and are tracked in the backlog above.
