@@ -1,0 +1,344 @@
+{
+  "info": {
+    "_postman_id": "es-urban-routes-api-v1",
+    "name": "Urban Routes — API Test Collection",
+    "description": "TripleTen QA Apprenticeship — Efrain Solivan\nAPI tests for Urban Routes backend: users, kits, products, orders, and fast-delivery endpoints.\nSprints 3–5.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl",   "value": "https://cnt-1234567890.containerhub.tripleten-services.com", "type": "string" },
+    { "key": "userId",    "value": "1",   "type": "string" },
+    { "key": "kitId",     "value": "2",   "type": "string" },
+    { "key": "productId", "value": "7",   "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "POST /api/v1/users — Create user (valid)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 201 Created', () => pm.response.to.have.status(201));",
+                  "pm.test('Response has authToken', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body).to.have.property('authToken');",
+                  "  pm.environment.set('authToken', body.authToken);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Doe\",\n  \"phone\": \"+19995552233\",\n  \"clue\": \"MyCity\",\n  \"password\": \"SecurePass1\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/users", "host": ["{{baseUrl}}"], "path": ["api","v1","users"] }
+          }
+        },
+        {
+          "name": "POST /api/v1/users — Missing firstName (expect 400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 400 Bad Request', () => pm.response.to.have.status(400));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lastName\": \"Doe\",\n  \"phone\": \"+19995552233\",\n  \"clue\": \"MyCity\",\n  \"password\": \"SecurePass1\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/users", "host": ["{{baseUrl}}"], "path": ["api","v1","users"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Kits",
+      "item": [
+        {
+          "name": "GET /api/v1/kits — List all kits",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is an array', () => {",
+                  "  pm.expect(pm.response.json()).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/v1/kits", "host": ["{{baseUrl}}"], "path": ["api","v1","kits"] }
+          }
+        },
+        {
+          "name": "POST /api/v1/kits — Create kit (valid name)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 201 Created', () => pm.response.to.have.status(201));",
+                  "pm.test('Kit id returned', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body).to.have.property('id');",
+                  "  pm.environment.set('kitId', body.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type",  "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Home Essentials Kit\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/kits", "host": ["{{baseUrl}}"], "path": ["api","v1","kits"] }
+          }
+        },
+        {
+          "name": "POST /api/v1/kits — Empty name (expect 400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 400 Bad Request', () => pm.response.to.have.status(400));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type",  "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/v1/kits", "host": ["{{baseUrl}}"], "path": ["api","v1","kits"] }
+          }
+        },
+        {
+          "name": "POST /kits/:id/products — Add products (valid qty)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type",  "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productsList\": [\n    { \"id\": 7, \"quantity\": 2 },\n    { \"id\": 10, \"quantity\": 1 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/kits/{{kitId}}/products",
+              "host": ["{{baseUrl}}"], "path": ["api","v1","kits","{{kitId}}","products"]
+            }
+          }
+        },
+        {
+          "name": "POST /kits/:id/products — qty = 0 (expect 400) [BUG ESP3-25]",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status should be 400 — FAILS (returns 200)', () => pm.response.to.have.status(400));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type",  "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productsList\": [{ \"id\": 7, \"quantity\": 0 }]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/kits/2/products",
+              "host": ["{{baseUrl}}"], "path": ["api","v1","kits","2","products"]
+            }
+          }
+        },
+        {
+          "name": "POST /kits/:id/products — negative qty (expect 400) [BUG ESP3-26]",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status should be 400 — FAILS (returns 200)', () => pm.response.to.have.status(400));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type",  "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productsList\": [{ \"id\": 7, \"quantity\": -1 }]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/kits/10/products",
+              "host": ["{{baseUrl}}"], "path": ["api","v1","kits","10","products"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fast Delivery",
+      "item": [
+        {
+          "name": "POST /fast-delivery — eligible (wt 3kg, 2 items)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('isItPossibleToDeliver is true', () => {",
+                  "  pm.expect(pm.response.json().isItPossibleToDeliver).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dlvType\": \"fast\",\n  \"productsCount\": 2,\n  \"productsWeight\": 3\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/fast-delivery/v3.1.1/calculate-delivery", "host": ["{{baseUrl}}"], "path": ["fast-delivery","v3.1.1","calculate-delivery"] }
+          }
+        },
+        {
+          "name": "POST /fast-delivery — outside hours (expect false) [BUG ESP3-40]",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('isItPossibleToDeliver should be false — FAILS (returns true)', () => {",
+                  "  pm.expect(pm.response.json().isItPossibleToDeliver).to.be.false;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dlvType\": \"fast\",\n  \"productsCount\": 2,\n  \"productsWeight\": 3,\n  \"currentTime\": \"03:00\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/fast-delivery/v3.1.1/calculate-delivery", "host": ["{{baseUrl}}"], "path": ["fast-delivery","v3.1.1","calculate-delivery"] }
+          }
+        },
+        {
+          "name": "POST /fast-delivery — invalid XML payload (expect 400) [BUG ESP3-39]",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status should be 400 — FAILS (returns 500)', () => pm.response.to.have.status(400));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/xml" }],
+            "body": {
+              "mode": "raw",
+              "raw": "<delivery><type>fast</type></delivery>"
+            },
+            "url": { "raw": "{{baseUrl}}/fast-delivery/v3.1.1/calculate-delivery", "host": ["{{baseUrl}}"], "path": ["fast-delivery","v3.1.1","calculate-delivery"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "GET /api/v1/orders — List orders for user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/v1/orders?userId={{userId}}", "host": ["{{baseUrl}}"], "path": ["api","v1","orders"], "query": [{"key":"userId","value":"{{userId}}"}] }
+          }
+        }
+      ]
+    }
+  ]
+}
