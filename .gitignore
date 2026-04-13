@@ -1,36 +1,44 @@
-# Python
+# ── Environment & Secrets ─────────────────────────────────────────────────────
+.env
+*.env
+
+# ── Python ────────────────────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
-build/
-dist/
+*.egg
 *.egg-info/
+dist/
+build/
+eggs/
 .eggs/
 
-# pytest
-.pytest_cache/
-.cache/
-htmlcov/
-.coverage
-.coverage.*
-coverage.xml
-*.cover
-
-# Virtual environments
-.env
-.venv
-env/
+# ── Virtual Environments ──────────────────────────────────────────────────────
+.venv/
 venv/
+env/
 ENV/
 
-# IDE / Editor
+# ── Test Output ───────────────────────────────────────────────────────────────
+reports/
+!reports/.gitkeep
+screenshots/
+!screenshots/.gitkeep
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# ── IDEs ──────────────────────────────────────────────────────────────────────
 .vscode/
 .idea/
 *.swp
 *.swo
+*.swn
 
-# OS
+# ── OS ────────────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+desktop.ini
