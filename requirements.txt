@@ -1,4 +1,17 @@
-# Sprint 8 — Selenium WebDriver test dependencies
-# Install with: pip install -r requirements.txt
-selenium==4.18.1
-pytest==7.4.4
+# Urban Routes QA — Python dependencies
+# Install: pip install -r requirements.txt
+
+# ── Core test runner ──────────────────────────────────────────────────────────
+pytest~=7.4
+
+# ── Browser automation ────────────────────────────────────────────────────────
+selenium~=4.18
+
+# ── Env variable management ───────────────────────────────────────────────────
+python-dotenv~=1.0
+
+# ── Test reporting ────────────────────────────────────────────────────────────
+pytest-html~=4.1
+
+# ── Retry logic for flaky tests ───────────────────────────────────────────────
+pytest-rerunfailures~=13.0
