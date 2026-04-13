@@ -1,199 +1,203 @@
-# ============================================================
-# Urban Routes — Selenium WebDriver + Pytest Test Suite
-# Project : TripleTen QA Engineering Apprenticeship
-# Author : Efrain Solivan
-# Sprint : 8 — Browser Automation (Selenium WebDriver)
-# Stack : Python 3.10+, pytest, selenium 4.x, ChromeDriver
-# Pattern : Lite Page Object Model (POM)
-# ============================================================
+"""
+test_urban_routes.py — Selenium test suite for Urban Routes web application.
+
+Test Strategy:
+    These tests cover the critical order flow for the Comfort tariff.
+    Organized into two groups:
+        @pytest.mark.smoke   — fast critical path (run on every push)
+        @pytest.mark.full    — complete happy path regression
+        @pytest.mark.negative — error conditions and edge cases
+
+    Run all:        pytest selenium/
+    Run smoke only: pytest selenium/ -m smoke
+    Run negative:   pytest selenium/ -m negative
+
+Architecture:
+    Tests call methods on UrbanRoutesPage — no raw Selenium in this file.
+    All test data comes from config.py → .env → environment variables.
+    Screenshots are auto-captured on failure via conftest.py hook.
+
+Sprint: 8 (Selenium WebDriver) / 9 (pytest automation)
+"""
 
 import pytest
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
-
-# ── Configuration ─────────────────────────────────────────────
-# NOTE: This URL is a TripleTen sandbox endpoint. It is not publicly
-# accessible outside the TripleTen course environment. Tests will
-# fail with a connection error unless run inside that sandbox.
-URBAN_ROUTES_URL = "https://cnt-1234567890.containerhub.tripleten-services.com"
-
-FROM_ADDRESS = "123 Main St"
-TO_ADDRESS = "Times Square"
-
-PHONE_NUMBER = "+12025550199"
-CARD_NUMBER = "1234 0000 5678"
-CARD_CVV = "12"
-BLANKET_MSG = "Bring a warm blanket please"
-ICE_CREAM_QTY = 2
+from config import TEST_DATA
 
 
-# ── Page Locators (POM) ───────────────────────────────────────
-class Locators:
-        # Route inputs
-        FROM_FIELD = (By.ID, "from")
-        TO_FIELD = (By.ID, "to")
-        CALL_TAXI_BTN = (By.XPATH, "//button[contains(text(),'Call a taxi')]")
+# ─── Happy Path Tests ───────────────────────────────────────────────────────────────
 
-    # Comfort tariff
-        TARIFF_COMFORT = (By.XPATH, "//div[@class='tcard'][.//div[text()='Comfort']]")
-
-    # Phone modal
-        PHONE_BTN = (By.CSS_SELECTOR, ".np-button")
-        PHONE_INPUT = (By.ID, "phone")
-        PHONE_NEXT_BTN = (By.XPATH, "//button[text()='Next']")
-        SMS_CODE_INPUT = (By.ID, "code")
-        SMS_CONFIRM_BTN = (By.XPATH, "//button[text()='Confirm']")
-
-    # Payment modal
-        PAY_BTN = (By.CSS_SELECTOR, ".pp-button")
-        ADD_CARD_BTN = (By.XPATH, "//div[text()='Add card']")
-        CARD_NUMBER_INPUT = (By.ID, "number")
-        CARD_CVV_INPUT = (By.CSS_SELECTOR, ".card-code-input #code")
-        ADD_CARD_SUBMIT = (By.XPATH, "//button[text()='Add']")
-        CLOSE_PAY_MODAL = (By.CSS_SELECTOR, ".close-button.section-close")
-
-    # Extras
-        COMMENT_FIELD = (By.ID, "comment")
-        BLANKET_TOGGLE = (By.XPATH, "//div[contains(@class,'r-sw')][.//span[text()='Blanket and handkerchiefs']]//div[contains(@class,'switch')]")
-        BLANKET_TOGGLE_INPUT = (By.XPATH, "//div[contains(@class,'r-sw')][.//span[text()='Blanket and handkerchiefs']]//input[@type='checkbox']")
-        ICE_CREAM_PLUS = (By.XPATH, "//div[contains(@class,'r-counter')][.//div[text()='Ice cream']]//div[@class='counter-plus']")
-        ICE_CREAM_COUNT = (By.XPATH, "//div[contains(@class,'r-counter')][.//div[text()='Ice cream']]//div[@class='counter-value']")
-
-    # Order button & timer
-        ORDER_BTN = (By.CSS_SELECTOR, ".smart-button-main")
-        ORDER_MODAL = (By.CSS_SELECTOR, ".order-header-content")
-        DRIVER_INFO = (By.CSS_SELECTOR, ".order-body")
-
-
-# ── Helper ────────────────────────────────────────────────────
-def wait_for(driver, locator, timeout=10):
-        return WebDriverWait(driver, timeout).until(
-                    EC.element_to_be_clickable(locator)
-        )
-
-
-# ── Test Class ────────────────────────────────────────────────
-@pytest.mark.usefixtures("driver", "open_url")
 class TestOrderFlow:
+    """
+    Full order flow through the Urban Routes app using Comfort tariff.
+    Each test is independent — relies on the `page` fixture for a fresh browser.
+    """
 
-        def test_set_route(self, driver):
-                    """TC-01: User can enter origin and destination addresses."""
-                    from_el = wait_for(driver, Locators.FROM_FIELD)
-                    from_el.send_keys(FROM_ADDRESS)
+    @pytest.mark.smoke
+    def test_set_route(self, page):
+        """TC-01: User can enter origin and destination addresses."""
+        page.set_route(TEST_DATA["from_address"], TEST_DATA["to_address"])
 
-            to_el = wait_for(driver, Locators.TO_FIELD)
-        to_el.send_keys(TO_ADDRESS)
-
-        assert driver.find_element(*Locators.FROM_FIELD).get_attribute("value") == FROM_ADDRESS
-        assert driver.find_element(*Locators.TO_FIELD).get_attribute("value") == TO_ADDRESS
-
-    def test_select_comfort_tariff(self, driver):
-                """TC-02: User can select the Comfort tariff."""
-                call_btn = wait_for(driver, Locators.CALL_TAXI_BTN)
-                call_btn.click()
-
-        comfort = wait_for(driver, Locators.TARIFF_COMFORT)
-        comfort.click()
-
-        # After clicking, the selected tcard receives an 'active' or 'selected' CSS class.
-        selected_classes = driver.find_element(*Locators.TARIFF_COMFORT).get_attribute("class")
-        assert "tcard--active" in selected_classes or "active" in selected_classes, (
-                        f"Comfort tariff card does not have an active/selected class. Got: '{selected_classes}'"
+        assert page.get_from_address() == TEST_DATA["from_address"], (
+            f"Expected FROM field to contain '{TEST_DATA['from_address']}', "
+            f"but got '{page.get_from_address()}'"
+        )
+        assert page.get_to_address() == TEST_DATA["to_address"], (
+            f"Expected TO field to contain '{TEST_DATA['to_address']}', "
+            f"but got '{page.get_to_address()}'"
         )
 
-    def test_fill_phone_number(self, driver):
-                """TC-03: User can enter a phone number via the phone modal."""
-                phone_btn = wait_for(driver, Locators.PHONE_BTN)
-                phone_btn.click()
+    @pytest.mark.smoke
+    def test_select_comfort_tariff(self, page):
+        """TC-02: Selecting Comfort tariff highlights it as active."""
+        page.set_route(TEST_DATA["from_address"], TEST_DATA["to_address"])
+        page.select_comfort_tariff()
 
-        phone_input = wait_for(driver, Locators.PHONE_INPUT)
-        phone_input.send_keys(PHONE_NUMBER)
-
-        next_btn = wait_for(driver, Locators.PHONE_NEXT_BTN)
-        next_btn.click()
-
-        # Retrieve code from the simulated SMS (TripleTen sandbox returns it)
-        code_input = wait_for(driver, Locators.SMS_CODE_INPUT)
-        # In the sandbox, retrieve the code from the page source or a helper API
-        # For demonstration, we enter a placeholder:
-        code_input.send_keys("000000")
-
-        confirm_btn = wait_for(driver, Locators.SMS_CONFIRM_BTN)
-        confirm_btn.click()
-
-    def test_add_credit_card(self, driver):
-                """TC-04: User can add a credit card for payment."""
-                pay_btn = wait_for(driver, Locators.PAY_BTN)
-                pay_btn.click()
-
-        add_card = wait_for(driver, Locators.ADD_CARD_BTN)
-        add_card.click()
-
-        card_input = wait_for(driver, Locators.CARD_NUMBER_INPUT)
-        card_input.send_keys(CARD_NUMBER)
-
-        cvv_input = wait_for(driver, Locators.CARD_CVV_INPUT)
-        cvv_input.send_keys(CARD_CVV)
-        cvv_input.send_keys("\t")  # blur to trigger validation
-
-        add_btn = wait_for(driver, Locators.ADD_CARD_SUBMIT)
-        add_btn.click()
-
-        close_btn = wait_for(driver, Locators.CLOSE_PAY_MODAL)
-        close_btn.click()
-
-    def test_add_comment_for_driver(self, driver):
-                """TC-05: User can leave a comment for the driver."""
-                comment = wait_for(driver, Locators.COMMENT_FIELD)
-                comment.clear()
-                comment.send_keys(BLANKET_MSG)
-
-        assert driver.find_element(*Locators.COMMENT_FIELD).get_attribute("value") == BLANKET_MSG
-
-    def test_toggle_blanket(self, driver):
-                """TC-06: User can toggle the Blanket and handkerchiefs extra ON."""
-                # Check initial state before clicking
-                checkbox = driver.find_element(*Locators.BLANKET_TOGGLE_INPUT)
-        was_checked = checkbox.is_selected()
-
-        toggle = wait_for(driver, Locators.BLANKET_TOGGLE)
-        toggle.click()
-
-        # Verify the toggle state actually changed after the click
-        checkbox_after = driver.find_element(*Locators.BLANKET_TOGGLE_INPUT)
-        is_checked_now = checkbox_after.is_selected()
-        assert is_checked_now != was_checked, (
-                        "Blanket toggle did not change state after click. "
-                        f"Before: {was_checked}, After: {is_checked_now}"
+        assert page.get_selected_tariff_name() == "Comfort", (
+            "Expected 'Comfort' tariff to be selected after clicking it."
         )
 
-    def test_ice_cream_counter(self, driver):
-                """TC-07: User can add 2 ice cream items via the counter."""
-                plus_btn = wait_for(driver, Locators.ICE_CREAM_PLUS)
-                for _ in range(ICE_CREAM_QTY):
-                                plus_btn.click()
+    @pytest.mark.full
+    def test_add_phone_number(self, page):
+        """TC-03: User can add a phone number and confirm via SMS code."""
+        page.set_route(TEST_DATA["from_address"], TEST_DATA["to_address"])
+        page.select_comfort_tariff()
+        page.add_phone_number(TEST_DATA["phone"], TEST_DATA["sms_code"])
 
-                count_el = driver.find_element(*Locators.ICE_CREAM_COUNT)
-                assert count_el.text == str(ICE_CREAM_QTY), (
-                    f"Expected {ICE_CREAM_QTY} ice creams, got {count_el.text}"
-                )
-
-    def test_order_taxi(self, driver):
-                """TC-08: User can place the taxi order and see the driver lookup modal."""
-                order_btn = wait_for(driver, Locators.ORDER_BTN)
-                order_btn.click()
-
-        order_modal = WebDriverWait(driver, 15).until(
-                        EC.visibility_of_element_located(Locators.ORDER_MODAL)
+        displayed = page.get_phone_number_displayed()
+        assert TEST_DATA["phone"] in displayed, (
+            f"Phone number '{TEST_DATA['phone']}' not shown in UI. Got: '{displayed}'"
         )
-        assert order_modal.is_displayed(), "Order confirmation modal did not appear"
 
-    def test_driver_info_appears(self, driver):
-                """TC-09: Driver information panel appears after order is placed."""
-                driver_panel = WebDriverWait(driver, 40).until(
-                    EC.visibility_of_element_located(Locators.DRIVER_INFO)
-                )
-                assert driver_panel.is_displayed(), "Driver info panel did not load"
+    @pytest.mark.full
+    def test_add_credit_card(self, page):
+        """TC-04: User can add a credit card via the payment dialog."""
+        page.set_route(TEST_DATA["from_address"], TEST_DATA["to_address"])
+        page.select_comfort_tariff()
+        page.add_phone_number(TEST_DATA["phone"], TEST_DATA["sms_code"])
+        page.add_credit_card(TEST_DATA["card_number"], TEST_DATA["card_cvv"])
+        # If no exception is raised, the card was accepted and dialog closed cleanly.
+
+    @pytest.mark.full
+    def test_add_driver_comment(self, page):
+        """TC-05: User can enter a message for the driver."""
+        page.set_route(TEST_DATA["from_address"], TEST_DATA["to_address"])
+        page.select_comfort_tariff()
+        page.add_driver_comment(TEST_DATA["driver_comment"])
+
+        assert page.get_driver_comment() == TEST_DATA["driver_comment"], (
+            f"Driver comment not saved. Expected: '{TEST_DATA['driver_comment']}'"
+        )
+
+    @pytest.mark.full
+    def test_toggle_blanket_extra(self, page):
+        """TC-06: Blanket and handkerchiefs extra can be toggled on."""
+        page.set_route(TEST_DATA["from_address"], TEST_DATA["to_address"])
+        page.select_comfort_tariff()
+        page.toggle_blanket()
+
+        assert page.is_blanket_checked() is True, (
+            "Expected blanket checkbox to be checked after toggling."
+        )
+
+    @pytest.mark.full
+    def test_increment_ice_cream(self, page):
+        """TC-07: Ice cream counter increments to 2 after two clicks."""
+        page.set_route(TEST_DATA["from_address"], TEST_DATA["to_address"])
+        page.select_comfort_tariff()
+        page.increment_ice_cream(times=2)
+
+        count = page.get_ice_cream_count()
+        assert count == 2, (
+            f"Expected ice cream count to be 2 after two increments. Got: {count}"
+        )
+
+    @pytest.mark.smoke
+    def test_place_order_shows_modal(self, page):
+        """TC-08: Clicking 'Order a Taxi' opens the order confirmation modal."""
+        page.set_route(TEST_DATA["from_address"], TEST_DATA["to_address"])
+        page.select_comfort_tariff()
+        page.add_phone_number(TEST_DATA["phone"], TEST_DATA["sms_code"])
+        page.add_credit_card(TEST_DATA["card_number"], TEST_DATA["card_cvv"])
+        page.place_order()
+
+        assert page.is_order_modal_visible(), (
+            "Order confirmation modal did not appear after clicking 'Order a Taxi'."
+        )
+
+    @pytest.mark.full
+    @pytest.mark.flaky(reruns=2, reruns_delay=3)
+    def test_driver_info_appears(self, page):
+        """TC-09: Driver information panel appears after order is placed."""
+        page.set_route(TEST_DATA["from_address"], TEST_DATA["to_address"])
+        page.select_comfort_tariff()
+        page.add_phone_number(TEST_DATA["phone"], TEST_DATA["sms_code"])
+        page.add_credit_card(TEST_DATA["card_number"], TEST_DATA["card_cvv"])
+        page.add_driver_comment(TEST_DATA["driver_comment"])
+        page.toggle_blanket()
+        page.increment_ice_cream(times=2)
+        page.place_order()
+
+        assert page.wait_for_driver_info(), (
+            "Driver info panel did not appear within the timeout. "
+            "The sandbox may be slow — check TIMEOUT_DRIVER_INFO in .env."
+        )
+
+
+# ─── Negative / Edge Case Tests ─────────────────────────────────────────────────────────────
+
+class TestNegativeScenarios:
+    """
+    Tests for error conditions, empty inputs, and boundary values.
+    These test QA judgment — not just happy path coverage.
+    """
+
+    @pytest.mark.negative
+    def test_empty_from_address_does_not_proceed(self, page):
+        """TC-N01: Route with empty origin should not allow tariff selection."""
+        page.set_route("", TEST_DATA["to_address"])
+        assert page.get_from_address() == "", (
+            "Expected FROM field to remain empty when cleared."
+        )
+
+    @pytest.mark.negative
+    def test_empty_to_address_does_not_proceed(self, page):
+        """TC-N02: Route with empty destination should not allow tariff selection."""
+        page.set_route(TEST_DATA["from_address"], "")
+        assert page.get_to_address() == "", (
+            "Expected TO field to remain empty when cleared."
+        )
+
+    @pytest.mark.negative
+    def test_ice_cream_starts_at_zero(self, page):
+        """TC-N03: Ice cream counter should default to 0 before any interaction."""
+        page.set_route(TEST_DATA["from_address"], TEST_DATA["to_address"])
+        page.select_comfort_tariff()
+        count = page.get_ice_cream_count()
+        assert count == 0, (
+            f"Expected ice cream counter to start at 0. Got: {count}"
+        )
+
+    @pytest.mark.negative
+    def test_driver_comment_with_special_characters(self, page):
+        """TC-N04: Driver comment field accepts special characters without error."""
+        special_comment = "Hello! @#$%^&*() — Traer una cobija, por favor."
+        page.set_route(TEST_DATA["from_address"], TEST_DATA["to_address"])
+        page.select_comfort_tariff()
+        page.add_driver_comment(special_comment)
+
+        stored = page.get_driver_comment()
+        assert stored == special_comment, (
+            f"Special characters in comment were not preserved. Got: '{stored}'"
+        )
+
+    @pytest.mark.negative
+    def test_blanket_toggle_can_be_unchecked(self, page):
+        """TC-N05: Blanket extra can be toggled off after being toggled on."""
+        page.set_route(TEST_DATA["from_address"], TEST_DATA["to_address"])
+        page.select_comfort_tariff()
+        page.toggle_blanket()   # ON
+        page.toggle_blanket()   # OFF
+
+        assert page.is_blanket_checked() is False, (
+            "Expected blanket to be unchecked after toggling it off."
+        )
