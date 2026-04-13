@@ -1,0 +1,4 @@
+# Sprint 8 — Selenium WebDriver test dependencies
+# Install with: pip install -r requirements.txt
+selenium==4.18.1
+pytest==7.4.4
