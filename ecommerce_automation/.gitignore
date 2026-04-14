@@ -1,0 +1,19 @@
+# Virtual environment
+venv/
+.venv/
+
+# Pytest cache and reports
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pyo
+report.html
+
+# ChromeDriver binaries downloaded by undetected_chromedriver
+*.exe
+chromedriver*
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
