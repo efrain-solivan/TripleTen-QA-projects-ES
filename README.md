@@ -13,7 +13,18 @@ This repo documents all QA work completed in the TripleTen QA Engineering progra
 
 > ⚠️ **Note:** All testing was conducted in the TripleTen sandbox environment. This does not represent work in a production environment or at a real company.
 >
-> ---
+> ## 🌟 Featured: Production UI Automation
+**Project:** Live E-Commerce Logic Validation (Jomashop)  
+**Status:** 🚀 [Complete & Verified](./ecommerce_automation/)
+
+Unlike sandbox projects, this framework was built to handle a live production environment.
+* **Tech:** Python, Pytest, Selenium, Undetected-Chromedriver.
+* **Challenge:** Overcoming anti-bot measures and dynamic DOM elements to validate search and sorting logic.
+* **Outcome:** Successfully automated a sequence that verifies price-sorting accuracy across 10+ live items.
+
+![UI Automation Test Results](ecommerce_automation/assets/Screenshot_2026-04-14.png)
+>
+>  ---
 >
 > ## Sprint Index
 >
