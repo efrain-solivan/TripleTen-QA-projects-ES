@@ -1,28 +1,31 @@
-# Urban Routes — QA Engineering Portfolio
+# QA Engineering Portfolio — Efrain Solivan
 
 **Program:** TripleTen QA Engineering Apprenticeship
-**Project:** Urban Routes & Urban Lunch — Ride-Hailing & Food Delivery Applications
-**Author:** Efrain Solivan | [LinkedIn](https://www.linkedin.com/in/efrain-solivan)
-**Progress:** Sprints 1–8 in progress (89% of program)
+**Author:** Efrain Solivan | [LinkedIn](https://www.linkedin.com/in/efrain-solivan) | [GitHub](https://github.com/efrain-solivan)
+**Stack:** Python · Selenium · Pytest · Postman · SQL · Jira · Android Studio
+**Progress:** Sprints 1–8 complete · Capstone upcoming (May 2026)
 
 ---
 
-## About This Repository
-
-This repo documents all QA work completed in the TripleTen QA Engineering program. Each sprint has its own folder with a detailed README, links to live project artifacts (Google Sheets, Jira), and relevant code files.
-
-> ⚠️ **Note:** All testing was conducted in the TripleTen sandbox environment. This does not represent work in a production environment or at a real company.
-
 ## 🌟 Featured: Production UI Automation
-**Project:** Live E-Commerce Logic Validation (Jomashop)  
-**Status:** 🚀 [Complete & Verified](./ecommerce_automation/)
 
-Unlike sandbox projects, this framework was built to handle a live production environment.
-* **Tech:** Python, Pytest, Selenium, Undetected-Chromedriver.
-* **Challenge:** Overcoming anti-bot measures and dynamic DOM elements to validate search and sorting logic.
-* **Outcome:** Successfully automated a sequence that verifies price-sorting accuracy across 10+ live items.
+**Project:** Live E-Commerce Search & Sort Validation — [Jomashop.com](https://www.jomashop.com)
+**Folder:** [`ecommerce_automation/`](./ecommerce_automation/)
 
-![UI Automation Test Results](ecommerce_automation/assets/Screenshot_2026-04-14.png)
+Unlike the sandbox sprint projects below, this framework was built against a real production site with active bot detection and a live SPA DOM.
+
+| What | How |
+|------|-----|
+| **Language & Framework** | Python 3.14 · Pytest · Selenium 4 |
+| **Bot detection bypass** | `undetected-chromedriver` defeats PerimeterX (active on Jomashop) |
+| **Architecture** | Page Object Model · explicit `WebDriverWait` · zero `time.sleep()` |
+| **Stale DOM fix** | JavaScript atomic extraction eliminates `StaleElementReferenceException` on SPA re-renders |
+| **Sort validation** | 8-product sample · `min < max` guard prevents vacuous pass on uniform prices |
+| **Result** | `$5.99 ≤ $5.99 ≤ $5.99 ≤ $6.99 ≤ $6.99 ≤ $6.99 ≤ $6.99 ≤ $6.99` ✓ |
+
+```
+3 passed in 31.23s
+```
 
 ---
 
@@ -34,11 +37,13 @@ Unlike sandbox projects, this framework was built to handle a live production en
 | Sprint 2 | Test Design & Documentation | Address field test design (EC/BV, test cases) | 📊 Google Sheets | ✅ Accepted |
 | Sprint 3 | Testing Web Applications | Payment card validation (EC/BV, test cases) | 📊 Google Sheets | ✅ Accepted |
 | Sprint 4 | APIs | REST API testing — Kits & Fast Delivery endpoints | 📊 Google Sheets · 📬 Postman | ✅ Accepted |
-| Sprint 5 | Understanding Databases | SQL — Urban Routes data integrity validation (supplemental; auto-graded portion not in repo) | 🗄️ [SQL file](sql/urban_routes_data_integrity.sql) | ✅ Complete |
+| Sprint 5 | Understanding Databases | SQL — Urban Routes data integrity validation | 🗄️ [SQL file](sql/urban_routes_data_integrity.sql) | ✅ Complete |
 | Sprint 6 | Testing Mobile Applications | Mobile checklist — Urban Lunch Android app | 📊 Google Sheets | ✅ Accepted |
-| Sprint 7 | Python | (in progress) | — | 🔄 In Progress |
-| Sprint 8 | Browser Automation | Selenium WebDriver full order flow | 🤖 [Selenium](selenium/test_urban_routes.py) | ✅ Complete |
+| Sprint 7 | Python | Python scripting for QA automation | — | ✅ Complete |
+| Sprint 8 | Browser Automation | Selenium WebDriver — Urban Routes full order flow | 🤖 [selenium/](selenium/) | ✅ Complete |
 | Sprint 9 | Final Project | Applied Testing — capstone | — | ⏳ Upcoming |
+
+> ⚠️ Sprints 1–8 were completed in the TripleTen sandbox environment against a test application. The `ecommerce_automation/` project above targets a live production site.
 
 ---
 
@@ -47,44 +52,33 @@ Unlike sandbox projects, this framework was built to handle a live production en
 ```text
 TripleTen-QA-projects-ES/
 │
-├── ecommerce_automation/        ← 🌟 Live Production UI Framework
-│   ├── conftest.py
+├── ecommerce_automation/        ← 🌟 Live Production Framework (Jomashop)
+│   ├── conftest.py              ← undetected_chromedriver session fixture
+│   ├── pytest.ini
 │   ├── requirements.txt
-│   ├── assets/                  ← Test execution evidence
-│   └── tests/
-│       └── test_search_filter.py
+│   ├── pages/
+│   │   └── search_page.py      ← Page Object Model
+│   ├── tests/
+│   │   └── test_search_filter.py
+│   └── utils/
+│       └── wait_helpers.py     ← explicit WebDriverWait utilities
 │
-├── selenium/                    ← Sprint 8 (Sandbox environment)
+├── selenium/                    ← Sprint 8 — Urban Routes order flow
 │   ├── conftest.py
-│   └── test_urban_routes.py 
-│
-├── sprint-1/  ← Manual testing & Jira bug reports
-│   └── README.md
-│
-├── sprint-2/  ← Test design: address fields (Google Sheets)
-│   └── README.md
-│
-├── sprint-3/  ← Test design: card validation (Google Sheets)
-│   └── README.md
-│
-├── sprint-4/  ← API testing: kits & fast delivery (Sheets + Postman)
-│   └── README.md
-│
-├── sprint-5/  ← SQL: database understanding sprint
-│   └── README.md
-│
-├── sprint-6/  ← Mobile testing checklist (Google Sheets)
-│   └── README.md
+│   ├── pages/
+│   │   └── urban_routes_page.py
+│   └── test_urban_routes.py
 │
 ├── postman/
-│   └── urban_routes_api_collection.json  ← Sprint 4 Postman collection
+│   └── urban_routes_api_collection.json
 │
 ├── sql/
-│   └── urban_routes_data_integrity.sql  ← Urban Routes integrity queries (Sprint 5 supplemental)
+│   └── urban_routes_data_integrity.sql
 │
 ├── test-cases/
-│   └── urban_routes_test_cases.md  ← Manual test cases (all sprints)
+│   └── urban_routes_test_cases.md
 │
-├── .gitignore
-├── requirements.txt              ← Python dependencies (selenium, pytest)
+├── sprint-1/  through  sprint-6/   ← per-sprint READMEs with reviewer feedback
+│
 └── README.md
+```
