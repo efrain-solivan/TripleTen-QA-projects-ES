@@ -19,7 +19,7 @@
 | [api_db_validation/](./api_db_validation/) — DB | 6 | Database integrity checks · 97% coverage | Self-contained Flask/SQLite | ✅ 6 passed |
 | **Total** | **34** | **Multi-layer: UI · API · DB** | | **All passing** |
 
-> CI runs the `api_db_validation` suite (15 tests) on every push — zero external dependencies required.
+> CI runs the `api_db_validation` suite (17 tests) on every push — zero external dependencies required.
 > Selenium and ecommerce suites run locally against their respective environments.
 
 ---
@@ -103,10 +103,10 @@ TripleTen-QA-projects-ES/
 │   │   └── urban_routes_page.py
 │   └── test_urban_routes.py
 │
-├── api_db_validation/           ← Self-contained Flask + SQLite (15 tests, runs in CI)
+├── api_db_validation/           ← Self-contained Flask + SQLite (17 tests, runs in CI)
 │   ├── app/
 │   ├── tests/
-│   │   ├── test_api_responses.py   ← 9 API tests
+│   │   ├── test_api_responses.py   ← 11 API tests
 │   │   └── test_db_integrity.py    ← 6 DB integrity tests
 │   └── requirements.txt
 │
