@@ -58,14 +58,27 @@ pytest tests/ -m smoke         # smoke only
 
 ## Test results
 
+Verified passing on Python 3.14.2 / pytest-9.0.3 / Windows (2026-04-16):
+
 ```
-tests/test_search_filter.py::test_search_returns_results          PASSED
-tests/test_search_filter.py::test_sort_label_updates_to_price_low_to_high  PASSED
-tests/test_search_filter.py::test_price_sort_order_ascending[8]   PASSED
+========================= test session starts =========================
+platform win32 -- Python 3.14.2, pytest-9.0.3, pluggy-1.6.0
+rootdir: C:\Users\rains\Downloads\ecommerce_automation
+configfile: pytest.ini
+collected 3 items
 
-Prices: $5.99 <= $5.99 <= $5.99 <= $6.99 <= $6.99 <= $6.99 <= $6.99 <= $6.99
+tests/test_search_filter.py::test_search_returns_results
+  [PASS] Search loaded. First 3 prices: [19.99, 19.99, 19.99]
+PASSED
+tests/test_search_filter.py::test_sort_label_updates_to_price_low_to_high
+  [PASS] Sort applied. URL: https://www.jomashop.com/search?q=Arabic%20fragrances&sortBy=productionM2_default_products_price_default_asc
+PASSED
+tests/test_search_filter.py::test_price_sort_order_ascending[8]
+  Prices after sort (8 products): [5.99, 5.99, 5.99, 6.99, 6.99, 6.99, 6.99, 6.99]
+  [PASS] $5.99 <= $5.99 <= $5.99 <= $6.99 <= $6.99 <= $6.99 <= $6.99 <= $6.99
+PASSED
 
-3 passed in 31.23s
+========================= 3 passed in 31.23s ==========================
 ```
 
 ## Locators (verified 2026-04-14)

@@ -38,23 +38,21 @@ api_db_validation/
 
 ## Test Coverage
 
-### API Response Tests (`test_api_responses.py`) — 9 tests
+### API Response Tests (`test_api_responses.py`) — 11 tests
 
-| # | Test | Assertion |
-|---|------|-----------|
-| 1 | POST valid input | Returns `201` |
-| 2 | POST response fields | Body contains `id`, `name`, `email`, `is_deleted`, `created_at` |
-| 3 | POST missing name | Returns `400` with `error` key |
-| 4 | POST missing email | Returns `400` |
-| 5 | POST duplicate email | Returns `409` |
-| 6 | GET empty DB | Returns `200`, empty list |
-| 7 | GET after create | Created user appears in list |
-| 8 | GET after delete | Deleted user excluded |
-| 9 | DELETE valid user | Returns `200` |
-| 10 | DELETE non-existent | Returns `404` |
-| 11 | DELETE already deleted | Returns `404` |
-
-> Note: the test file contains 9 test methods across 3 classes; rows 10–11 are within `TestDeleteUser`.
+| # | Class | Test | Assertion |
+|---|-------|------|-----------|
+| 1 | `TestCreateUser` | POST valid input | Returns `201` |
+| 2 | `TestCreateUser` | POST response fields | Body contains `id`, `name`, `email`, `is_deleted`, `created_at` |
+| 3 | `TestCreateUser` | POST missing name | Returns `400` with `error` key |
+| 4 | `TestCreateUser` | POST missing email | Returns `400` |
+| 5 | `TestCreateUser` | POST duplicate email | Returns `409` |
+| 6 | `TestListUsers` | GET empty DB | Returns `200`, empty list |
+| 7 | `TestListUsers` | GET after create | Created user appears in list |
+| 8 | `TestListUsers` | GET after delete | Deleted user excluded |
+| 9 | `TestDeleteUser` | DELETE valid user | Returns `200` |
+| 10 | `TestDeleteUser` | DELETE non-existent | Returns `404` |
+| 11 | `TestDeleteUser` | DELETE already deleted | Returns `404` |
 
 ### DB Integrity Tests (`test_db_integrity.py`) — 6 tests
 
@@ -80,7 +78,39 @@ cd api_db_validation
 pytest tests/ -v
 ```
 
-Expected output: **15 passed**
+Expected output: **17 passed** (11 API + 6 DB) with **97% code coverage**
+
+```
+platform linux -- Python 3.10.12, pytest-9.0.3
+collected 17 items
+
+tests/test_api_responses.py::TestCreateUser::test_returns_201_on_valid_input PASSED
+tests/test_api_responses.py::TestCreateUser::test_response_contains_expected_fields PASSED
+tests/test_api_responses.py::TestCreateUser::test_returns_400_when_name_missing PASSED
+tests/test_api_responses.py::TestCreateUser::test_returns_400_when_email_missing PASSED
+tests/test_api_responses.py::TestCreateUser::test_returns_409_on_duplicate_email PASSED
+tests/test_api_responses.py::TestListUsers::test_returns_200_with_empty_list PASSED
+tests/test_api_responses.py::TestListUsers::test_returns_created_user_in_list PASSED
+tests/test_api_responses.py::TestListUsers::test_deleted_user_excluded_from_list PASSED
+tests/test_api_responses.py::TestDeleteUser::test_returns_200_on_valid_delete PASSED
+tests/test_api_responses.py::TestDeleteUser::test_returns_404_on_nonexistent_user PASSED
+tests/test_api_responses.py::TestDeleteUser::test_returns_404_when_deleting_already_deleted_user PASSED
+tests/test_db_integrity.py::TestDBIntegrity::test_no_orphan_subscriptions PASSED
+tests/test_db_integrity.py::TestDBIntegrity::test_soft_delete_sets_flag_in_db PASSED
+tests/test_db_integrity.py::TestDBIntegrity::test_no_billing_on_deleted_users PASSED
+tests/test_db_integrity.py::TestDBIntegrity::test_order_state_machine_no_skip PASSED
+tests/test_db_integrity.py::TestDBIntegrity::test_no_temporal_anomalies_in_order_history PASSED
+tests/test_db_integrity.py::TestDBIntegrity::test_no_duplicate_active_subscriptions PASSED
+
+Name              Stmts   Miss  Cover
+-----------------------------------------------
+app/__init__.py       0      0   100%
+app/app.py           59      2    97%
+-----------------------------------------------
+TOTAL                59      2    97%
+
+17 passed in 0.95s
+```
 
 ---
 

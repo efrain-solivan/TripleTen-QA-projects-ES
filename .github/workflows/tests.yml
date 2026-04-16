@@ -1,0 +1,88 @@
+name: QA Test Suite
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ─────────────────────────────────────────────────────────────────────────────
+  # JOB 1: API + DB integrity tests (self-contained Flask/SQLite — no external deps)
+  # Runs on every push. 15 tests. No browser. No sandbox server required.
+  # ─────────────────────────────────────────────────────────────────────────────
+  api-db-tests:
+    name: API & DB Integrity (15 tests)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        working-directory: api_db_validation
+        run: pip install -r requirements.txt pytest-cov
+
+      - name: Run API & DB tests with coverage
+        working-directory: api_db_validation
+        run: |
+          pytest tests/ -v \
+            --tb=short \
+            --cov=app \
+            --cov-report=term-missing \
+            --cov-report=xml:coverage.xml \
+            --junitxml=test-results.xml
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-db-test-results
+          path: |
+            api_db_validation/test-results.xml
+            api_db_validation/coverage.xml
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # JOB 2: Selenium Urban Routes smoke test
+  # Requires the TripleTen sandbox server (URL injected via secret).
+  # Skipped automatically when SELENIUM_ENABLED repo variable is not set to 'true'.
+  # To enable: Settings → Variables → New repository variable → SELENIUM_ENABLED=true
+  # ─────────────────────────────────────────────────────────────────────────────
+  selenium-smoke:
+    name: Selenium Smoke (Urban Routes)
+    runs-on: ubuntu-latest
+    if: ${{ vars.SELENIUM_ENABLED == 'true' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Chrome & ChromeDriver
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run smoke tests
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+        run: pytest selenium/ -m smoke -v --tb=short
+
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-failure-screenshots
+          path: screenshots/

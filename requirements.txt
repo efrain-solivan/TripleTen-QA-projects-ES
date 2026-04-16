@@ -13,5 +13,8 @@ python-dotenv~=1.0
 # ── Test reporting ────────────────────────────────────────────────────────────
 pytest-html~=4.1
 
+# ── Coverage reporting ────────────────────────────────────────────────────────
+pytest-cov~=5.0
+
 # ── Retry logic for flaky tests ───────────────────────────────────────────────
 pytest-rerunfailures~=13.0
