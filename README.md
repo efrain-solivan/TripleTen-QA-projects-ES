@@ -19,8 +19,7 @@
 | [api_db_validation/](./api_db_validation/) — DB | 6 | Database integrity checks · 97% coverage | Self-contained Flask/SQLite | ✅ 6 passed |
 | **Total** | **34** | **Multi-layer: UI · API · DB** | | **All passing** |
 
-> CI runs the `api_db_validation` suite (17 tests) on every push — zero external dependencies required.
-> Selenium and ecommerce suites run locally against their respective environments.
+> **17 tests run in CI** (`api_db_validation` — zero external dependencies required). The remaining 17 tests target the TripleTen sandbox and Jomashop production environments and run locally. All 34 are automated; none are manual.
 
 ---
 

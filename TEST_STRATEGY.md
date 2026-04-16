@@ -34,7 +34,7 @@ API tests pass; DB tests fail. That gap is where real bugs live. Sprint 4 found 
 ### Layer 1 — Test Design (Sprints 1–4, 6)
 Manual test case design using Equivalence Class (EC) partitioning and Boundary Value Analysis (BVA). Every automated test in this repo traces back to a manually designed test case. Automation without design produces tests that check implementation details, not requirements.
 
-**Key artifacts:** Sprint 2 (22 EC/BV test cases), Sprint 3 (payment card boundary tests), Sprint 4 (API test cases)
+**Key artifacts:** [Sprint 2 (22 EC/BV test cases)](sprint-2/README.md) · [Sprint 3 (payment card boundary tests)](sprint-3/README.md) · [Sprint 4 (API test cases)](sprint-4/README.md)
 
 ### Layer 2 — Database Integrity (`api_db_validation/tests/test_db_integrity.py`)
 Six tests that connect directly to SQLite after API calls and verify row-level state. This layer exists because:
@@ -46,7 +46,7 @@ Six tests that connect directly to SQLite after API calls and verify row-level s
 **Runs in CI on every push.** Zero external dependencies.
 
 ### Layer 3 — API Response Validation (`api_db_validation/tests/test_api_responses.py`, `postman/`)
-Nine pytest tests covering POST/GET/DELETE happy paths, missing fields, duplicate emails, and soft-delete behavior via HTTP. The Postman collection covers the same Urban Routes sandbox API with 11 requests including automated `pm.test()` assertions.
+Eleven pytest tests covering POST/GET/DELETE happy paths, missing fields, duplicate emails, and soft-delete behavior via HTTP. The Postman collection covers the same Urban Routes sandbox API with 11 requests including automated `pm.test()` assertions.
 
 **Runs in CI on every push** (pytest suite). Postman collection runs locally.
 
