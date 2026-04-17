@@ -1,126 +1,159 @@
 # QA Engineering Portfolio — Efrain Solivan
 
-**Program:** TripleTen QA Engineering Apprenticeship
-**Author:** Efrain Solivan | [LinkedIn](https://www.linkedin.com/in/efrain-solivan) | [GitHub](https://github.com/efrain-solivan)
-**Stack:** Python · Selenium · Pytest · Postman · SQL · Jira · Android Studio
+**Program:** TripleTen QA Engineering Apprenticeship  
+**Author:** Efrain Solivan | [LinkedIn](https://www.linkedin.com/in/efrain-solivan) | [GitHub](https://github.com/efrain-solivan)  
+**Core Skills:** Test Design · Bug Reporting · API Testing · SQL · Postman · Jira · Android Studio  
+**Automation Exposure:** Python · Selenium · Pytest · CI/CD (GitHub Actions)  
 **Progress:** Sprints 1–8 complete · Capstone upcoming (May 2026)
 
 [![QA Test Suite](https://github.com/efrain-solivan/TripleTen-QA-projects-ES/actions/workflows/tests.yml/badge.svg)](https://github.com/efrain-solivan/TripleTen-QA-projects-ES/actions/workflows/tests.yml)
 
 ---
 
-## Test Suite Summary
+## About This Portfolio
 
-| Framework | Tests | Type | Environment | Status |
-|-----------|------:|------|-------------|--------|
-| [ecommerce_automation/](./ecommerce_automation/) | 3 | UI — Live production site (Jomashop) | Windows · Python 3.14 · Chrome | ✅ 3 passed |
-| [selenium/](./selenium/) | 14 | UI — Full order flow (Urban Routes) | TripleTen sandbox | ✅ Complete |
-| [api_db_validation/](./api_db_validation/) — API | 11 | REST API response validation | Self-contained Flask/SQLite | ✅ 11 passed |
-| [api_db_validation/](./api_db_validation/) — DB | 6 | Database integrity checks · 97% coverage | Self-contained Flask/SQLite | ✅ 6 passed |
-| **Total** | **34** | **Multi-layer: UI · API · DB** | | **All passing** |
+This repository compiles QA work completed across the TripleTen QA Engineering program (Sprints 1–8). Sprint work was developed inside the TripleTen LMS sandbox environment; this is an April 2026 compilation of all deliverables.
 
-> **17 tests run in CI** (`api_db_validation` — zero external dependencies required). The remaining 17 tests target the TripleTen sandbox and Jomashop production environments and run locally. All 34 are automated; none are manual.
+My foundation is in manual testing methodology — test case design using equivalence class and boundary value analysis, structured bug reporting, REST API validation, SQL data integrity checks, and mobile app testing. Automation is applied on top of that foundation, not in place of it.
 
 ---
 
-## 🌟 Featured: Production UI Automation
+## Manual QA Artifacts
 
-**Project:** Live E-Commerce Search & Sort Validation — [Jomashop.com](https://www.jomashop.com)
-**Folder:** [`ecommerce_automation/`](./ecommerce_automation/)
+### Test Cases & Bug Reports
 
-Unlike the sandbox sprint projects below, this framework runs against a real production site with active bot detection and a live SPA DOM.
+| Sprint | Focus Area | Test Design Method | Artifact |
+|--------|-----------|-------------------|---------|
+| Sprint 1 | Urban Routes map UI — manual bug reporting | Exploratory + checklist | 📋 [Jira Board ESP1](https://rainsol.atlassian.net/jira/software/projects/ESP1/boards/1) |
+| Sprint 2 | Address field validation — 22 test cases | EC/BV analysis | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/180Ii-U0EN1SYws9RIyir1VxOzOrXp7QoLWwHGU9pvdU/edit) |
+| Sprint 3 | Payment card validation | EC/BV, boundary testing | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1tyb3C0jYfA0jdLqO3gJ0puDvY3OEUNAXka8Hxg9wG5U/edit) |
+| Sprint 4 | REST API — Kits & Fast Delivery endpoints | EC/BV on request params | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1wETfopGNtrBu2jTMhzAn4BkMcdOnzyEM2QrP4468LoQ/edit) |
+| Sprint 6 | Urban Lunch Android app | Mobile functionality checklist | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/16vPGkMI4pK5eJek2JdMuR2a2MiH25km0KZPszijaxUA/edit) |
 
-| What | How |
-|------|-----|
-| **Language & Framework** | Python 3.14 · Pytest 9.0.3 · Selenium 4 |
-| **CDP fingerprint modification** | `undetected-chromedriver` applies CDP-level fingerprint modification for stable production test execution |
-| **Architecture** | Page Object Model · explicit `WebDriverWait` · zero `time.sleep()` |
-| **Stale DOM fix** | JavaScript atomic extraction eliminates `StaleElementReferenceException` on SPA re-renders |
-| **Sort validation** | 8-product sample · `min < max` guard prevents vacuous pass on uniform prices |
-| **Result** | `$5.99 ≤ $5.99 ≤ $5.99 ≤ $6.99 ≤ $6.99 ≤ $6.99 ≤ $6.99 ≤ $6.99` ✓ |
+### Postman Collection — REST API Testing (Sprint 4)
+
+**File:** [`postman/urban_routes_api_collection.json`](postman/urban_routes_api_collection.json)
+
+11 requests covering the Urban Routes REST API, including happy-path, edge-case, and negative tests.
 
 ```
-platform win32 -- Python 3.14.2, pytest-9.0.3, pluggy-1.6.0
-collected 3 items
-
-tests/test_search_filter.py::test_search_returns_results
-  [PASS] Search loaded. First 3 prices: [19.99, 19.99, 19.99]
-PASSED
-tests/test_search_filter.py::test_sort_label_updates_to_price_low_to_high
-  [PASS] Sort applied. URL: https://www.jomashop.com/search?q=Arabic%20fragrances&sortBy=productionM2_default_products_price_default_asc
-PASSED
-tests/test_search_filter.py::test_price_sort_order_ascending[8]
-  Prices after sort (8 products): [5.99, 5.99, 5.99, 6.99, 6.99, 6.99, 6.99, 6.99]
-  [PASS] $5.99 <= $5.99 <= $5.99 <= $6.99 <= $6.99 <= $6.99 <= $6.99 <= $6.99
-PASSED
-
-3 passed in 31.23s
+POST /api/v1/kits        — Add items to kit (EC/BV on name length, required fields)
+GET  /api/v1/kits/{id}   — Retrieve kit by ID (valid ID, invalid ID, missing ID)
+POST /order/fastDelivery — Fast delivery availability (address + time edge cases)
 ```
+
+### SQL Data Integrity Queries (Sprint 5)
+
+**File:** [`sql/urban_routes_data_integrity.sql`](sql/urban_routes_data_integrity.sql)
+
+10 queries validating Urban Routes database integrity: orphaned records, NULL constraint violations, and referential integrity between drivers and routes tables.
+
+```sql
+-- Sample: drivers without assigned routes
+SELECT d.id, d.name
+FROM drivers d
+LEFT JOIN routes r ON d.id = r.driver_id
+WHERE r.id IS NULL;
+```
+
+### Test Case Document
+
+**File:** [`test-cases/urban_routes_test_cases.md`](test-cases/urban_routes_test_cases.md)
+
+Structured test cases for the Urban Routes application covering form validation, payment flow, and map interaction.
 
 ---
 
 ## Sprint Index
 
-| Sprint | Topic | Project | Artifact | Status |
-|--------|-------|---------|----------|--------|
-| Sprint 1 | Testing Fundamentals | Manual testing & bug reporting — Urban Routes map UI | 📋 [Jira Board ESP1](https://rainsol.atlassian.net/jira/software/projects/ESP1/boards/1) | ✅ Accepted |
-| Sprint 2 | Test Design & Documentation | Address field test design — EC/BV, 22 test cases | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/180Ii-U0EN1SYws9RIyir1VxOzOrXp7QoLWwHGU9pvdU/edit) | ✅ Accepted |
-| Sprint 3 | Testing Web Applications | Payment card validation — EC/BV, boundary testing | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1tyb3C0jYfA0jdLqO3gJ0puDvY3OEUNAXka8Hxg9wG5U/edit) | ✅ Accepted |
-| Sprint 4 | APIs | REST API testing — Kits & Fast Delivery endpoints | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1wETfopGNtrBu2jTMhzAn4BkMcdOnzyEM2QrP4468LoQ/edit) · 📬 [Postman](postman/) | ✅ Accepted |
-| Sprint 5 | Understanding Databases | SQL — Urban Routes data integrity validation | 🗄️ [SQL queries](sql/) | ✅ Complete |
-| Sprint 6 | Testing Mobile Applications | Mobile checklist — Urban Lunch Android app | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/16vPGkMI4pK5eJek2JdMuR2a2MiH25km0KZPszijaxUA/edit) | ✅ Accepted |
-| Sprint 7 | Python | Python scripting for QA automation | — | ✅ Complete |
-| Sprint 8 | Browser Automation | Selenium WebDriver — Urban Routes full order flow | 🤖 [selenium/](selenium/) | ✅ Complete |
-| Sprint 9 | Final Project | Applied Testing — capstone | — | ⏳ Upcoming |
+| Sprint | Topic | Artifact | Status |
+|--------|-------|---------|--------|
+| Sprint 1 | Testing Fundamentals — bug reporting, Urban Routes map UI | 📋 [Jira Board ESP1](https://rainsol.atlassian.net/jira/software/projects/ESP1/boards/1) | ✅ Accepted |
+| Sprint 2 | Test Design — address field EC/BV, 22 test cases | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/180Ii-U0EN1SYws9RIyir1VxOzOrXp7QoLWwHGU9pvdU/edit) | ✅ Accepted |
+| Sprint 3 | Web App Testing — payment card EC/BV | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1tyb3C0jYfA0jdLqO3gJ0puDvY3OEUNAXka8Hxg9wG5U/edit) | ✅ Accepted |
+| Sprint 4 | APIs — REST API validation, Kits & Fast Delivery | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1wETfopGNtrBu2jTMhzAn4BkMcdOnzyEM2QrP4468LoQ/edit) · 📬 [Postman](postman/) | ✅ Accepted |
+| Sprint 5 | Databases — SQL data integrity, Urban Routes | 🗄️ [SQL queries](sql/) | ✅ Complete |
+| Sprint 6 | Mobile Testing — Urban Lunch Android app checklist | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/16vPGkMI4pK5eJek2JdMuR2a2MiH25km0KZPszijaxUA/edit) | ✅ Accepted |
+| Sprint 7 | Python Fundamentals | — | ✅ Complete |
+| Sprint 8 | Selenium WebDriver — Urban Routes full order flow, 14 tests | 🤖 [selenium/](selenium/) | ✅ Complete |
+| Sprint 9 | Final Project — capstone | — | ⏳ Upcoming |
 
-> ⚠️ Sprints 1–8 were completed in the TripleTen sandbox environment against a test application. The `ecommerce_automation/` project above targets a live production site.
+> ⚠️ Sprints 1–8 were completed in the TripleTen LMS sandbox environment against a controlled test application. The `ecommerce_automation/` project below targets a live production site.
+
+---
+
+## Automation Projects
+
+### ecommerce_automation/ — Live Production Site (Jomashop)
+
+Selenium + Pytest framework targeting a live e-commerce site with dynamic bot-mitigation. See [`ecommerce_automation/README.md`](ecommerce_automation/README.md) for full technical details.
+
+| | |
+|---|---|
+| Tests | 3 (search smoke · sort label · price sort order) |
+| Stack | Python 3.14 · Pytest 9.0.3 · Selenium 4 · undetected-chromedriver |
+| Architecture | Page Object Model · explicit `WebDriverWait` · zero `time.sleep()` |
+| Status | ✅ 3 passed |
+
+### selenium/ — Sprint 8: Urban Routes Order Flow
+
+14 automated UI tests covering the full booking flow in the TripleTen sandbox environment.
+
+| | |
+|---|---|
+| Tests | 14 |
+| Stack | Python · Selenium WebDriver |
+| Status | ✅ Complete |
+
+### api_db_validation/ — Self-Contained Flask + SQLite
+
+17 automated tests (11 API + 6 DB) with CI/CD via GitHub Actions. Zero external dependencies.
+
+| | |
+|---|---|
+| Tests | 17 (11 API · 6 DH�� 97% DB coverage) |
+| Stack | Python · Flask · SQLite · Pytest |
+| CI | GitHub Actions — runs on every push |
+| Status | ✅ All passing |
+
+---
+
+## Test Coverage Summary
+
+| Layer | Tests | Environment |
+|-------|------:|-------------|
+| UI — Production (Jomashop) | 3 | Live production site |
+| UI — Sandbox (Urban Routes) | 14 | TripleTen sandbox |
+| API (automated) | 11 | Self-contained |
+| DB (automated) | 6 | Self-contained |
+| **Total (automated)** | **34** | |
+
+Manual test cases, Postman requests, and SQL queries are documented separately in the sprint artifacts above.
 
 ---
 
 ## Repository Structure
 
-```text
+```
 TripleTen-QA-projects-ES/
 │
 ├── .github/workflows/
 │   └── tests.yml                ← CI: api_db_validation runs on every push
 │
-├── ecommerce_automation/        ← 🌟 Live Production Framework (Jomashop)
-│   ├── conftest.py              ← undetected_chromedriver session fixture
-│   ├── pytest.ini
-│   ├── requirements.txt
-│   ├── pages/
-│   │   └── search_page.py      ← Page Object Model
-│   ├── tests/
-│   │   └── test_search_filter.py
-│   └── utils/
-│       └── wait_helpers.py     ← explicit WebDriverWait utilities
-│
+├── ecommerce_automation/        ← Live Production Automation (Jomashop)
 ├── selenium/                    ← Sprint 8 — Urban Routes order flow (14 tests)
-│   ├── conftest.py
-│   ├── pages/
-│   │   └── urban_routes_page.py
-│   └── test_urban_routes.py
-│
-├── api_db_validation/           ← Self-contained Flask + SQLite (17 tests, runs in CI)
-│   ├── app/
-│   ├── tests/
-│   │   ├── test_api_responses.py   ← 11 API tests
-│   │   └── test_db_integrity.py    ← 6 DB integrity tests
-│   └── requirements.txt
+├── api_db_validation/           ← Self-contained Flask + SQLite (17 tests, CI)
 │
 ├── postman/                     ← Sprint 4 Postman collection (11 requests)
-│   ├── urban_routes_api_collection.json
-│   └── README.md
+│   └── urban_routes_api_collection.json
 │
 ├── sql/                         ← Sprint 5 SQL integrity queries (10 queries)
-│   ├── urban_routes_data_integrity.sql
-│   └── README.md
+│   └── urban_routes_data_integrity.sql
 │
 ├── test-cases/
 │   └── urban_routes_test_cases.md
 │
-├── sprint-1/ through sprint-6/  ← per-sprint READMEs with reviewer feedback & bug tables
+├── sprint-1/ through sprint-6/  ← per-sprint artifacts, reviewer feedback & bug tables
 │
 ├── TEST_STRATEGY.md             ← Test pyramid, marker strategy, fixture philosophy
 ├── CONTRIBUTING.md              ← Setup, run instructions, CI/CD notes
