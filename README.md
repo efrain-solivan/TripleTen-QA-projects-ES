@@ -111,7 +111,7 @@ Selenium + Pytest framework targeting a live e-commerce site with dynamic bot-mi
 
 | | |
 |---|---|
-| Tests | 17 (11 API · 6 DH�� 97% DB coverage) |
+| Tests | 17 (11 API · 6 DB · 97% DB coverage) |
 | Stack | Python · Flask · SQLite · Pytest |
 | CI | GitHub Actions — runs on every push |
 | Status | ✅ All passing |
