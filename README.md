@@ -25,10 +25,10 @@ My foundation is in manual testing methodology — test case design using equiva
 | Sprint | Focus Area | Test Design Method | Artifact |
 |--------|-----------|-------------------|----------|
 | Sprint 1 | Urban Routes map UI — manual bug reporting | Exploratory + checklist | 📋 [Jira Board ESP1](#) |
-| Sprint 2 | Address field validation — 22 test cases | EC/BV analysis | 📊 [Google Sheets](#) |
-| Sprint 3 | Payment card validation | EC/BV, boundary testing | 📊 [Google Sheets](#) |
-| Sprint 4 | REST API — Kits & Fast Delivery endpoints | EC/BV on request params | 📊 [Google Sheets](#) |
-| Sprint 6 | Urban Lunch Android app | Mobile functionality checklist | 📊 [Google Sheets](#) |
+| Sprint 2 | Address field validation — 22 test cases | EC/BV analysis | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/180Ii-U0EN1SYws9RIyir1VxOzOrXp7QoLWwHGU9pvdU/edit?usp=sharing) |
+| Sprint 3 | Payment card validation | EC/BV, boundary testing | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1tyb3C0jYfA0jdLqO3gJ0puDvY3OEUNAXka8Hxg9wG5U/edit?usp=sharing) |
+| Sprint 4 | REST API — Kits & Fast Delivery endpoints | EC/BV on request params | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1wETfopGNtrBu2jTMhzAn4BkMcdOnzyEM2QrP4468LoQ/edit?usp=sharing) |
+| Sprint 6 | Urban Lunch Android app | Mobile functionality checklist | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/16vPGkMI4pK5eJek2JdMuR2a2MiH25km0KZPszijaxUA/edit?usp=sharing) |
 
 ### Postman Collection — REST API Testing (Sprint 4)
 
@@ -69,11 +69,11 @@ Structured test cases for the Urban Routes application covering form validation,
 | Sprint | Topic | Artifact | Status |
 |--------|-------|----------|--------|
 | Sprint 1 | Testing Fundamentals — bug reporting, Urban Routes map UI | 📋 [Jira Board ESP1](#) | ✅ Accepted |
-| Sprint 2 | Test Design — address field EC/BV, 22 test cases | 📊 [Google Sheets](#) | ✅ Accepted |
-| Sprint 3 | Web App Testing — payment card EC/BV | 📊 [Google Sheets](#) | ✅ Accepted |
-| Sprint 4 | APIs — REST API validation, Kits & Fast Delivery | 📊 [Google Sheets](#) · 📬 [Postman](#) | ✅ Accepted |
+| Sprint 2 | Test Design — address field EC/BV, 22 test cases | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/180Ii-U0EN1SYws9RIyir1VxOzOrXp7QoLWwHGU9pvdU/edit?usp=sharing) | ✅ Accepted |
+| Sprint 3 | Web App Testing — payment card EC/BV | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1tyb3C0jYfA0jdLqO3gJ0puDvY3OEUNAXka8Hxg9wG5U/edit?usp=sharing) | ✅ Accepted |
+| Sprint 4 | APIs — REST API validation, Kits & Fast Delivery | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1wETfopGNtrBu2jTMhzAn4BkMcdOnzyEM2QrP4468LoQ/edit?usp=sharing) · 📬 [Postman](https://github.com/efrain-solivan/TripleTen-QA-projects-ES/tree/main/postman) | ✅ Accepted |
 | Sprint 5 | Databases — SQL data integrity, Urban Routes | 🗄️ [SQL queries](#) | ✅ Complete |
-| Sprint 6 | Mobile Testing — Urban Lunch Android app checklist | 📊 [Google Sheets](#) | ✅ Accepted |
+| Sprint 6 | Mobile Testing — Urban Lunch Android app checklist | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/16vPGkMI4pK5eJek2JdMuR2a2MiH25km0KZPszijaxUA/edit?usp=sharing) | ✅ Accepted |
 | Sprint 7 | Python Fundamentals | — | ✅ Complete |
 | Sprint 8 | Selenium WebDriver — Urban Routes full order flow, 14 tests | 🤖 [selenium/](#) | ✅ Complete |
 | Sprint 9 | Final Project — capstone | — | ⏳ Upcoming |
