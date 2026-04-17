@@ -33,7 +33,7 @@ Unlike the sandbox sprint projects below, this framework runs against a real pro
 | What | How |
 |------|-----|
 | **Language & Framework** | Python 3.14 · Pytest 9.0.3 · Selenium 4 |
-| **Bot detection bypass** | `undetected-chromedriver` defeats PerimeterX (active on Jomashop) |
+| **CDP fingerprint modification** | `undetected-chromedriver` applies CDP-level fingerprint modification for stable production test execution |
 | **Architecture** | Page Object Model · explicit `WebDriverWait` · zero `time.sleep()` |
 | **Stale DOM fix** | JavaScript atomic extraction eliminates `StaleElementReferenceException` on SPA re-renders |
 | **Sort validation** | 8-product sample · `min < max` guard prevents vacuous pass on uniform prices |
