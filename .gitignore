@@ -24,6 +24,8 @@ ENV/
 # ── Test Output ───────────────────────────────────────────────────────────────
 reports/
 !reports/.gitkeep
+!api_db_validation/reports/pytest-report.html
+!postman/reports/newman-report.html
 screenshots/
 !screenshots/.gitkeep
 .pytest_cache/

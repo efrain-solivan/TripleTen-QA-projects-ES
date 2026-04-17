@@ -1,0 +1,326 @@
+{
+  "info": {
+    "_postman_id": "es-jsonplaceholder-external-v1",
+    "name": "JSONPlaceholder — External API Test Collection",
+    "description": "Automated API tests against https://jsonplaceholder.typicode.com — a public REST API not designed by the tester.\nDemonstrates: status code validation, response schema checks, filter accuracy, relationship integrity, and CRUD simulation.\nAuthor: Efrain Solivan | TripleTen QA Engineering",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://jsonplaceholder.typicode.com", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "GET /users — returns 200 and exactly 10 records",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is an array of 10 users', () => {",
+                  "  const users = pm.response.json();",
+                  "  pm.expect(users).to.be.an('array').with.lengthOf(10);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/users", "host": ["{{baseUrl}}"], "path": ["users"] }
+          }
+        },
+        {
+          "name": "GET /users/1 — schema has required fields",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('User object contains required top-level fields', () => {",
+                  "  const user = pm.response.json();",
+                  "  ['id','name','username','email','address','phone','website','company'].forEach(f => {",
+                  "    pm.expect(user, `Missing field: ${f}`).to.have.property(f);",
+                  "  });",
+                  "});",
+                  "pm.test('address contains geo coordinates', () => {",
+                  "  const geo = pm.response.json().address.geo;",
+                  "  pm.expect(geo).to.have.property('lat');",
+                  "  pm.expect(geo).to.have.property('lng');",
+                  "  pm.environment.set('userId', 1);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/users/1", "host": ["{{baseUrl}}"], "path": ["users","1"] }
+          }
+        },
+        {
+          "name": "GET /users/999 — non-existent user returns 404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 404 Not Found', () => pm.response.to.have.status(404));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/users/999", "host": ["{{baseUrl}}"], "path": ["users","999"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "GET /posts — returns 200 and exactly 100 records",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is array of 100 posts', () => {",
+                  "  pm.expect(pm.response.json()).to.be.an('array').with.lengthOf(100);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/posts", "host": ["{{baseUrl}}"], "path": ["posts"] }
+          }
+        },
+        {
+          "name": "GET /posts?userId=1 — filter returns only posts for that user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('All returned posts belong to userId=1 (no filter leak)', () => {",
+                  "  const posts = pm.response.json();",
+                  "  pm.expect(posts.length).to.be.greaterThan(0);",
+                  "  posts.forEach(p => pm.expect(p.userId).to.eql(1));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/posts?userId=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["posts"],
+              "query": [{ "key": "userId", "value": "1" }]
+            }
+          }
+        },
+        {
+          "name": "GET /posts/1 — single post has required schema fields",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Post has required fields', () => {",
+                  "  const post = pm.response.json();",
+                  "  ['userId','id','title','body'].forEach(f => {",
+                  "    pm.expect(post, `Missing field: ${f}`).to.have.property(f);",
+                  "  });",
+                  "});",
+                  "pm.test('title and body are non-empty strings', () => {",
+                  "  const post = pm.response.json();",
+                  "  pm.expect(post.title).to.be.a('string').and.have.length.greaterThan(0);",
+                  "  pm.expect(post.body).to.be.a('string').and.have.length.greaterThan(0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/posts/1", "host": ["{{baseUrl}}"], "path": ["posts","1"] }
+          }
+        },
+        {
+          "name": "POST /posts — create returns 201 with echoed body and new id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 201 Created', () => pm.response.to.have.status(201));",
+                  "pm.test('Response echoes submitted fields', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.title).to.eql('QA Automation Test Post');",
+                  "  pm.expect(body.userId).to.eql(1);",
+                  "});",
+                  "pm.test('Response contains a new id', () => {",
+                  "  pm.expect(pm.response.json()).to.have.property('id');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"QA Automation Test Post\",\n  \"body\": \"Created by Newman automated run — Efrain Solivan\",\n  \"userId\": 1\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/posts", "host": ["{{baseUrl}}"], "path": ["posts"] }
+          }
+        },
+        {
+          "name": "DELETE /posts/1 — returns 200 with empty object",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response body is empty object', () => {",
+                  "  pm.expect(pm.response.json()).to.eql({});",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/posts/1", "host": ["{{baseUrl}}"], "path": ["posts","1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Comments",
+      "item": [
+        {
+          "name": "GET /posts/1/comments — all comments reference correct postId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('All comments belong to postId=1 (relationship integrity)', () => {",
+                  "  const comments = pm.response.json();",
+                  "  pm.expect(comments.length).to.be.greaterThan(0);",
+                  "  comments.forEach(c => pm.expect(c.postId).to.eql(1));",
+                  "});",
+                  "pm.test('Every comment has a valid email field', () => {",
+                  "  pm.response.json().forEach(c => {",
+                  "    pm.expect(c.email).to.be.a('string').and.include('@');",
+                  "  });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/posts/1/comments", "host": ["{{baseUrl}}"], "path": ["posts","1","comments"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Todos",
+      "item": [
+        {
+          "name": "GET /todos/1 — schema includes boolean completed field",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Todo has required fields', () => {",
+                  "  const todo = pm.response.json();",
+                  "  ['userId','id','title','completed'].forEach(f => {",
+                  "    pm.expect(todo, `Missing field: ${f}`).to.have.property(f);",
+                  "  });",
+                  "});",
+                  "pm.test('completed is a boolean', () => {",
+                  "  pm.expect(pm.response.json().completed).to.be.a('boolean');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/todos/1", "host": ["{{baseUrl}}"], "path": ["todos","1"] }
+          }
+        },
+        {
+          "name": "GET /todos?userId=1 — filter returns only todos for that user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('All todos belong to userId=1 (no filter leak)', () => {",
+                  "  const todos = pm.response.json();",
+                  "  pm.expect(todos.length).to.be.greaterThan(0);",
+                  "  todos.forEach(t => pm.expect(t.userId).to.eql(1));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/todos?userId=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["todos"],
+              "query": [{ "key": "userId", "value": "1" }]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
