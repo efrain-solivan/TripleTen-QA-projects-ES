@@ -2,7 +2,7 @@
 
 Selenium UI test framework validating search and price-sort logic on
 [Jomashop.com](https://www.jomashop.com) — a live production e-commerce site
-with active PerimeterX bot detection.
+targeting production environments with dynamic bot-mitigation systems.
 
 ## What it tests
 
@@ -11,10 +11,8 @@ with active PerimeterX bot detection.
 
 ## Tech decisions worth noting
 
-**`undetected-chromedriver` instead of stock Selenium Chrome**
-Jomashop runs PerimeterX. Standard Selenium — headless or not — triggers a
-CAPTCHA. `undetected-chromedriver` patches `navigator.webdriver` and all CDP
-fingerprints at the binary level, defeating the detection entirely.
+**CDP fingerprint modification for stable production test execution**
+Standard Selenium WebDriver exposes an automatable browser signature that triggers bot-mitigation overlays on live production sites. The framework applies CDP-level fingerprint modification via `undetected-chromedriver` to present a browser profile consistent with organic user traffic, enabling stable, repeatable test runs without disrupting the site's protective systems.
 
 **JavaScript price extraction instead of WebElement iteration**
 After a sort click, Jomashop's Algolia-powered SPA re-renders the product grid.
