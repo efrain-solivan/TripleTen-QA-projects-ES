@@ -4,6 +4,8 @@ Selenium UI test framework validating search and price-sort logic on
 [Jomashop.com](https://www.jomashop.com) — a live production e-commerce site
 targeting production environments with dynamic bot-mitigation systems.
 
+> **Production environment: Real bot detection, real constraints, real results.**
+
 ## What it tests
 
 > Search "Arabic fragrances" → sort by Price: Low to High → assert the first 8
