@@ -9,19 +9,15 @@ targeting production environments with dynamic bot-mitigation systems.
 ## What it tests
 
 > Search "Arabic fragrances" → sort by Price: Low to High → assert the first 8
-> rendered products are in non-decreasing price order.
+> rendered products are in non-decreasing price order.h
 
 ## Tech decisions worth noting
 
-**CDP fingerprint modification for stable production test execution**
-Standard Selenium WebDriver exposes an automatable browser signature that triggers bot-mitigation overlays on live production sites. The framework applies CDP-level fingerprint modification via `undetected-chromedriver` to present a browser profile consistent with organic user traffic, enabling stable, repeatable test runs without disrupting the site's protective systems.
+**Page Object Model for clean locator management**
+All element locators are centralized in `search_page.py`. This isolates DOM selectors from test logic, so if Jomashop updates their UI, only one file needs to change — not every test.
 
-**JavaScript price extraction instead of WebElement iteration**
-After a sort click, Jomashop's Algolia-powered SPA re-renders the product grid.
-Any `WebElement` reference captured before the re-render raises
-`StaleElementReferenceException` on `.text` access. Extracting prices in a
-single `driver.execute_script()` call runs atomically against one DOM snapshot —
-stale references are structurally impossible.
+**Explicit WebDriverWait for reliable synchronization**
+The framework uses targeted `WebDriverWait` conditions instead of `time.sleep()`. Every wait is tied to a specific application state (element visibility, text presence, DOM stability), making test execution reliable without fixed delays..
 
 **`min < max` guard on the sort assertion**
 The cheapest Arabic fragrances on Jomashop cluster at the same price point
