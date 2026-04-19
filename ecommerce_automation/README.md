@@ -1,8 +1,6 @@
 # ecommerce_automation
 
-Selenium UI test framework validating search and price-sort logic on
-[Jomashop.com](https://www.jomashop.com) — a live production e-commerce site
-targeting production environments with dynamic bot-mitigation systems.
+Selenium UI test framework validating search and price-sort logic on a live production e-commerce site (Jomashop.com).
 
 > **Production environment: Real bot detection, real constraints, real results.**
 
