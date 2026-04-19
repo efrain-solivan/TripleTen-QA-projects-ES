@@ -97,7 +97,7 @@ Structured test cases for the Urban Routes application covering form validation,
 | Layer | Tests | Environment |
 |-------|-------|-------------|
 | UI — Sandbox (Urban Routes) | 14 | TripleTen sandbox |
-| **Total (automated)** | **34** | |
+| **Total (automated)** | **14** | |
 
 Manual test cases, Postman requests, and SQL queries are documented separately in the sprint artifacts above.
 
