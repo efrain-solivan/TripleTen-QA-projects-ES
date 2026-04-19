@@ -7,7 +7,7 @@ Supporting evidence for defect counts and test documentation referenced in the p
 **Project:** Efrain Solivan Project 3 (ESP3)
 **Board:** [ESP3 Backlog](https://rainsol.atlassian.net/jira/software/projects/ESP3/boards/1/backlog)
 **Total Bugs Logged:** 40 (ESP3-1 through ESP3-47)
-**Claim Supported:** "Logged 30+ defects in Jira with detailed reproduction steps"
+**Claim Supported:** "Logged 40 defects in Jira with detailed reproduction steps"
 **Export:** [jira_esp3_defect_log.csv](./jira_esp3_defect_log.csv) — full export via Jira REST API
 
 ### Defect timeline (confirmed via API):
