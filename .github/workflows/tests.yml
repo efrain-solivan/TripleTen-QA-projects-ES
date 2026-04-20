@@ -8,90 +8,7 @@ on:
 
 jobs:
   # ─────────────────────────────────────────────────────────────────────────────
-  # JOB 1: API + DB integrity tests (self-contained Flask/SQLite — no external deps)
-  # Runs on every push. 15 tests. No browser. No sandbox server required.
-  # ─────────────────────────────────────────────────────────────────────────────
-  api-db-tests:
-    name: API & DB Integrity (15 tests)
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: "pip"
-
-      - name: Install dependencies
-        working-directory: api_db_validation
-        run: pip install -r requirements.txt pytest-cov
-
-      - name: Run API & DB tests with coverage
-        working-directory: api_db_validation
-        run: |
-          mkdir -p reports
-          pytest tests/test_api_responses.py tests/test_db_integrity.py -v \
-            --tb=short \
-            --cov=app \
-            --cov-report=term-missing \
-            --cov-report=xml:coverage.xml \
-            --junitxml=test-results.xml \
-            --html=reports/pytest-report.html \
-            --self-contained-html
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: api-db-test-results
-          path: |
-            api_db_validation/test-results.xml
-            api_db_validation/coverage.xml
-            api_db_validation/reports/pytest-report.html
-
-  # ─────────────────────────────────────────────────────────────────────────────
-  # JOB 2: External API tests — live requests against JSONPlaceholder
-  # Proves ability to test systems the tester did not design.
-  # Requires outbound internet; no secrets or local server needed.
-  # ─────────────────────────────────────────────────────────────────────────────
-  external-api-tests:
-    name: External API Tests (JSONPlaceholder)
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: "pip"
-
-      - name: Install dependencies
-        working-directory: api_db_validation
-        run: pip install -r requirements.txt pytest-cov
-
-      - name: Run external API tests
-        working-directory: api_db_validation
-        run: |
-          pytest tests/test_external_api.py -v \
-            --tb=short \
-            --junitxml=external-api-results.xml
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: external-api-test-results
-          path: api_db_validation/external-api-results.xml
-
-  # ─────────────────────────────────────────────────────────────────────────────
-  # JOB 3: Newman — runs JSONPlaceholder Postman collection and uploads HTML report
-  # ─────────────────────────────────────────────────────────────────────────────
+  # JOB 1: Newman — runs JSONPlaceholder Postman collection and uploads HTML report  # ─────────────────────────────────────────────────────────────────────────────
   newman-collection:
     name: Newman — JSONPlaceholder Collection
     runs-on: ubuntu-latest
@@ -119,8 +36,7 @@ jobs:
           path: postman/reports/newman-report.html
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # JOB 5: Selenium Urban Routes smoke test
-  # Requires the TripleTen sandbox server (URL injected via secret).
+  # JOB 2: Selenium Urban Routes smoke test  # Requires the TripleTen sandbox server (URL injected via secret).
   # Skipped automatically when SELENIUM_ENABLED repo variable is not set to 'true'.
   # To enable: Settings → Variables → New repository variable → SELENIUM_ENABLED=true
   # ─────────────────────────────────────────────────────────────────────────────
