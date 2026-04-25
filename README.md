@@ -37,9 +37,9 @@ My foundation is in manual testing methodology — test case design using equiva
 | Category | Count | Notes |
 |----------|-------|-------|
 | Total defects logged | 40 | 3 Critical · 24 High · remaining Medium/Low |
-| Cross-browser defects ¹ | 15+ | Chrome · Firefox · Safari (Sprint 3 web app testing) |
+| Cross-browser (subset) ¹ | 15+ | Chrome · Firefox · Edge (Sprint 3 web app testing) |
 
-¹ Cross-browser defects identified during Sprint 3 web app testing across Chrome, Firefox, and Safari.
+¹ Cross-browser defects are a subset of the 40 total; identified during Sprint 3 web app testing across Chrome, Firefox, and Edge.
 
 ### Postman Collection — REST API Testing (Sprint 4)
 
