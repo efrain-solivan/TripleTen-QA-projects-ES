@@ -3,7 +3,7 @@
 **Program:** TripleTen QA Engineering Apprenticeship
 **Projects:** Urban Routes (Ride-Hailing) · Urban Lunch (Food Delivery)
 **Author:** Efrain Solivan
-**Started:** July 2025 | **Progress:** Sprints 1–6 complete (73% of program)
+**Started:** July 2025 | **Progress:** Sprints 1–6 complete (67% of program)
 
 ---
 
@@ -42,7 +42,7 @@ Cross-browser issues found: **15+** (Chrome · Firefox · Edge)
 | [Sprint 5](sprint-5) | Understanding Databases | SQL — data integrity queries | [🗄️ SQL file](sql/urban_routes_data_integrity.sql) | ✅ Complete |
 | [Sprint 6](sprint-6) | Testing Mobile Applications | Mobile checklist — Urban Lunch Android app | [📊 Google Sheets](https://docs.google.com/spreadsheets/d/16vPGkMI4pK5eJek2JdMuR2a2MiH25km0KZPszijaxUA/edit) | ✅ Accepted |
 | Sprint 7 | Python | *(in progress)* | — | 🔄 In Progress |
-| Sprint 8 | Browser Automation | Selenium WebDriver — 9 E2E tests scripted (full order flow) | [🤖 Selenium](selenium/test_urban_routes.py) | 🔄 Partial (Sprint upcoming; tests scripted ahead of sprint) |
+| Sprint 8 | Browser Automation | Selenium WebDriver — 9 E2E tests scripted (full order flow) | [🤖 Selenium](selenium/test_urban_routes.py) | ✅ Complete (9 E2E tests scripted and committed to repo) |
 | Sprint 9 | Final Project | Applied Testing — capstone | — | ⏳ Upcoming |
 
 ---
