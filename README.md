@@ -1,136 +1,49 @@
-# QA Engineering Portfolio — Efrain Solivan
+# Urban Routes / Urban Lunch Ecosystem — QA Engineering Portfolio
 
 **Program:** TripleTen QA Engineering Apprenticeship
-**Author:** Efrain Solivan | [LinkedIn](https://www.linkedin.com/in/efrain-solivan) | [GitHub](https://github.com/efrain-solivan)
-**Core Skills:** Test Design · Bug Reporting · API Testing · SQL · Postman · Jira · Android Studio
-**Automation Exposure:** Python · Selenium · Pytest · CI/CD (GitHub Actions)
-**Progress:** Sprints 1–8 complete · Capstone upcoming (May 2026)
-
-> Translating high-stakes operational compliance (United Airlines, Amazon) into rigorous software defect prevention.
+**Projects:** Urban Routes (Ride-Hailing) · Urban Lunch (Food Delivery)
+**Author:** Efrain Solivan
+**Started:** July 2025 | **Progress:** Sprints 1–6 complete (73% of program)
 
 ---
 
-## About This Portfolio
+## About This Repository
 
-This repository compiles QA work completed across the TripleTen QA Engineering program (Sprints 1–8). Sprint work was developed inside the TripleTen LMS sandbox environment; this is an April 2026 compilation of all deliverables.
+This repo documents all QA work completed in the TripleTen QA Engineering program across two applications: the Urban Routes ride-hailing platform and the Urban Lunch food delivery app. Each sprint has its own folder with a detailed README, links to live project artifacts (Google Sheets, Jira), and relevant code files.
 
-**Timeline:** Program: Jul 2025 – May 2026 | Urban Routes project work: Nov 2025 – Present
-
-My foundation is in manual testing methodology — test case design using equivalence class and boundary value analysis, structured bug reporting, REST API validation, SQL data integrity checks, and mobile app testing. Automation is applied on top of that foundation, not in place of it.
+> ⚠️ **Note:** All testing was conducted in the TripleTen sandbox environment. This does not represent work in a production environment or at a real company.
 
 ---
 
-## Manual QA Artifacts
-
-### Test Cases & Bug Reports
-
-| Sprint | Focus Area | Test Design Method | Artifact |
-|--------|-----------|-------------------|----------|
-| Sprint 1 | Urban Routes map UI — manual bug reporting | Exploratory + checklist | 📋 [Jira Board ESP1](#) |
-| Sprint 2 | Address field validation — 22 test cases | EC/BV analysis | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/180Ii-U0EN1SYws9RIyir1VxOzOrXp7QoLWwHGU9pvdU/edit?usp=sharing) |
-| Sprint 3 | Payment card validation | EC/BV, boundary testing | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1tyb3C0jYfA0jdLqO3gJ0puDvY3OEUNAXka8Hxg9wG5U/edit?usp=sharing) |
-| Sprint 4 | REST API — Kits & Fast Delivery endpoints | EC/BV on request params | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1wETfopGNtrBu2jTMhzAn4BkMcdOnzyEM2QrP4468LoQ/edit?usp=sharing) |
-| Sprint 6 | Urban Lunch Android app | 51-case mobile test execution matrix | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/16vPGkMI4pK5eJek2JdMuR2a2MiH25km0KZPszijaxUA/edit?usp=sharing) |
-
-### Defect Summary
-
-| Category | Count | Notes |
-|----------|-------|-------|
-| Total defects logged | 40 | 3 Critical · 24 High · remaining Medium/Low |
-| Cross-browser (subset) ¹ | 15+ | Chrome · Firefox · Edge (Sprint 3 web app testing) |
-
-¹ Cross-browser defects are a subset of the 40 total; identified during Sprint 3 web app testing across Chrome, Firefox, and Edge.
-
-### Postman Collection — REST API Testing (Sprint 4)
-
-File: `postman/urban_routes_api_collection.json`
-
-11 requests covering the Urban Routes REST API, including happy-path, edge-case, and negative tests.
-
-```
-POST /api/v1/kits — Add items to kit (EC/BV on name length, required fields)
-GET /api/v1/kits/{id} — Retrieve kit by ID (valid ID, invalid ID, missing ID)
-POST /order/fastDelivery — Fast delivery availability (address + time edge cases)
-```
-
-### SQL Data Integrity Queries (Sprint 5)
-
-File: `sql/urban_routes_data_integrity.sql`
-
-10 queries validating Urban Routes database integrity: orphaned records, NULL constraint violations, and referential integrity between drivers and routes tables.
-
-```sql
--- Sample: drivers without assigned routes
-SELECT d.id, d.name
-FROM drivers d
-LEFT JOIN routes r ON d.id = r.driver_id
-WHERE r.id IS NULL;
-```
-
-### Test Case Document
-
-File: `test-cases/urban_routes_test_cases.md`
-
-Structured test cases for the Urban Routes application covering form validation, payment flow, and map interaction.
-
----
-
-## Portfolio at a Glance
-
-100+ QA artifacts across manual, API, mobile, and automation layers:
+## Test Artifact Summary
 
 | Artifact Type | Count |
-|---------------|-------|
-| Manual test cases | 22 |
-| Selenium E2E tests | 14 |
-| Postman API endpoints | 11 |
-| SQL integrity queries | 10 |
-| Mobile execution matrix cases | 51 |
-| Defects logged | 40 (3 Critical · 24 High) |
-| **Total artifacts** | **100+** |
+|---|---|
+| Manual Test Cases | 22 |
+| Selenium E2E Tests | 9 |
+| Postman API Endpoints | 11 |
+| SQL Integrity Queries | 10 |
+| Mobile Test Matrix (cases) | 51 |
+| **Total** | **103** |
 
----
-
-> ⚠️ **Disclaimer:** All testing was conducted in the TripleTen LMS sandbox environment. No production systems were accessed. Portfolio compiled from sprint deliverables for public GitHub: April 2026.
+Defects logged in Jira: **40** (3 Critical · 24 High · 9 Medium · 4 Low)
+Cross-browser issues found: **15+** (Chrome · Firefox · Edge)
 
 ---
 
 ## Sprint Index
 
-| Sprint | Topic | Artifact | Status |
-|--------|-------|----------|--------|
-| Sprint 1 | Testing Fundamentals — bug reporting, Urban Routes map UI | 📋 [Jira Board ESP1](#) | ✅ Accepted |
-| Sprint 2 | Test Design — address field EC/BV, 22 test cases | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/180Ii-U0EN1SYws9RIyir1VxOzOrXp7QoLWwHGU9pvdU/edit?usp=sharing) | ✅ Accepted |
-| Sprint 3 | Web App Testing — payment card EC/BV | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1tyb3C0jYfA0jdLqO3gJ0puDvY3OEUNAXka8Hxg9wG5U/edit?usp=sharing) | ✅ Accepted |
-| Sprint 4 | APIs — REST API validation, Kits & Fast Delivery | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/1wETfopGNtrBu2jTMhzAn4BkMcdOnzyEM2QrP4468LoQ/edit?usp=sharing) · 📬 [Postman](https://github.com/efrain-solivan/TripleTen-QA-projects-ES/tree/main/postman) | ✅ Accepted |
-| Sprint 5 | Databases — SQL data integrity, Urban Routes | 🗄️ [SQL queries](#) | ✅ Complete |
-| Sprint 6 | Mobile Testing — Urban Lunch Android app — 51-case test execution matrix | 📊 [Google Sheets](https://docs.google.com/spreadsheets/d/16vPGkMI4pK5eJek2JdMuR2a2MiH25km0KZPszijaxUA/edit?usp=sharing) | ✅ Accepted |
-| Sprint 7 | Python Fundamentals | — | ✅ Complete |
-| Sprint 8 | Selenium WebDriver — Urban Routes full order flow, 14 tests | 🤖 [selenium/](#) | ✅ Complete |
-| Sprint 9 | Final Project — capstone | — | ⏳ Upcoming |
-
----
-
-### `selenium/` — Sprint 8: Urban Routes Order Flow
-
-14 automated UI tests covering the full booking flow in the TripleTen sandbox environment.
-
-| | |
-|---|---|
-| **Tests** | 14 |
-| **Stack** | Python · Selenium WebDriver |
-| **Status** | ✅ Complete |
-
----
-
-## Test Coverage Summary
-
-| Layer | Tests | Environment |
-|-------|-------|-------------|
-| UI — Sandbox (Urban Routes) | 14 | TripleTen sandbox |
-| **Total (automated)** | **14** | |
-
-Manual test cases, Postman requests, and SQL queries are documented separately in the sprint artifacts above.
+| Sprint | Topic | Project | Artifact | Status |
+|---|---|---|---|---|
+| [Sprint 1](sprint-1) | Testing Fundamentals | Manual testing & bug reporting — Urban Routes map UI | [📋 Jira Board ESP1](https://rainsol.atlassian.net/jira/software/projects/ESP1/boards/1) | ✅ Accepted |
+| [Sprint 2](sprint-2) | Test Design & Documentation | Address field test design (EC/BV, test cases) | [📊 Google Sheets](https://docs.google.com/spreadsheets/d/180Ii-U0EN1SYws9RIyir1VxOzOrXp7QoLWwHGU9pvdU/edit) | ✅ Accepted |
+| [Sprint 3](sprint-3) | Testing Web Applications | Payment card validation (EC/BV, test cases) | [📊 Google Sheets](https://docs.google.com/spreadsheets/d/1tyb3C0jYfA0jdLqO3gJ0puDvY3OEUNAXka8Hxg9wG5U/edit) · [📋 Jira ESP3](https://rainsol.atlassian.net/jira/software/projects/ESP3/boards/3) | ✅ Accepted |
+| [Sprint 4](sprint-4) | APIs | REST API testing — Kits & Fast Delivery endpoints | [📊 Google Sheets](https://docs.google.com/spreadsheets/d/1wETfopGNtrBu2jTMhzAn4BkMcdOnzyEM2QrP4468LoQ/edit) · [📬 Postman](postman/urban_routes_api_collection.json) | ✅ Accepted |
+| [Sprint 5](sprint-5) | Understanding Databases | SQL — data integrity queries | [🗄️ SQL file](sql/urban_routes_data_integrity.sql) | ✅ Complete |
+| [Sprint 6](sprint-6) | Testing Mobile Applications | Mobile checklist — Urban Lunch Android app | [📊 Google Sheets](https://docs.google.com/spreadsheets/d/16vPGkMI4pK5eJek2JdMuR2a2MiH25km0KZPszijaxUA/edit) | ✅ Accepted |
+| Sprint 7 | Python | *(in progress)* | — | 🔄 In Progress |
+| Sprint 8 | Browser Automation | Selenium WebDriver — 9 E2E tests scripted (full order flow) | [🤖 Selenium](selenium/test_urban_routes.py) | 🔄 Partial (Sprint upcoming; tests scripted ahead of sprint) |
+| Sprint 9 | Final Project | Applied Testing — capstone | — | ⏳ Upcoming |
 
 ---
 
@@ -138,23 +51,50 @@ Manual test cases, Postman requests, and SQL queries are documented separately i
 
 ```
 TripleTen-QA-projects-ES/
-│
-├── .github/workflows/
-│
-├── selenium/ ← Sprint 8 — Urban Routes order flow (14 tests)
-│
-├── postman/ ← Sprint 4 Postman collection (11 requests)
+├── sprint-1/             ← Manual testing & Jira bug reports
+├── sprint-2/             ← Test design: address fields (Google Sheets)
+├── sprint-3/             ← Test design: card validation (Google Sheets)
+├── sprint-4/             ← API testing: kits & fast delivery (Sheets + Postman)
+├── sprint-5/             ← SQL: data integrity queries
+├── sprint-6/             ← Mobile testing checklist (Google Sheets)
+├── postman/
 │   └── urban_routes_api_collection.json
-│
-├── sql/ ← Sprint 5 SQL integrity queries (10 queries)
+├── selenium/
+│   └── test_urban_routes.py  ← 9 E2E tests (route, booking, payment, extras)
+├── sql/
 │   └── urban_routes_data_integrity.sql
-│
-├── test-cases/
-│   └── urban_routes_test_cases.md
-│
-├── sprint-1/ through sprint-6/ ← per-sprint artifacts, reviewer feedback & bug tables
-│
-├── TEST_STRATEGY.md ← Test pyramid, marker strategy, fixture philosophy
-├── CONTRIBUTING.md ← Setup, run instructions, CI/CD notes
-└── README.md
+└── test-cases/
+    └── urban_routes_test_cases.md
 ```
+
+---
+
+## Tech Stack
+
+| Area | Tools |
+|---|---|
+| Manual Testing | Jira (ESP1, ESP3), test case templates, exploratory testing |
+| Test Design | Equivalence classes, boundary value analysis, Google Sheets |
+| API Testing | Postman (REST: GET/POST, status codes, response schema) |
+| Database | PostgreSQL / SQL (JOINs, aggregates, CASE WHEN, subqueries) |
+| Mobile Testing | Android Studio Emulator, Android app testing |
+| Cross-Browser Testing | Chrome · Firefox · Edge (15+ issues documented) |
+| UI Automation | Python, Pytest, Selenium WebDriver 4, ChromeDriver, Page Object Model |
+| Defect Tracking | Jira (projects ESP1, ESP3) |
+
+---
+
+## Defect Summary (All Sprints)
+
+| Category | Total | Critical | High | Medium | Low |
+|---|---|---|---|---|---|
+| Map & Address UI (S1) | 10 | 0 | 1 | 5 | 4 |
+| Card Validation (S3) | 10 | 1 | 8 | 1 | 0 |
+| API — Kits (S4) | 11 | 0 | 10 | 1 | 0 |
+| API — Fast Delivery (S4) | 3 | 1 | 2 | 0 | 0 |
+| Mobile — Urban Lunch (S6) | 6 | 1 | 3 | 2 | 0 |
+| **Total** | **40** | **3** | **24** | **9** | **4** |
+
+---
+
+*Each sprint folder contains a full project README with tools used, what was tested, key findings, and links to all artifacts.*
