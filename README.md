@@ -37,7 +37,7 @@ Cross-browser issues found: **15+** (Chrome · Firefox · Edge)
 |---|---|---|---|---|
 | [Sprint 1](sprint-1) | Testing Fundamentals | Manual testing & bug reporting — Urban Routes map UI | [📋 Jira Board ESP1](https://rainsol.atlassian.net/jira/software/projects/ESP1/boards/1) | ✅ Accepted |
 | [Sprint 2](sprint-2) | Test Design & Documentation | Address field test design (EC/BV, test cases) | [📊 Google Sheets](https://docs.google.com/spreadsheets/d/180Ii-U0EN1SYws9RIyir1VxOzOrXp7QoLWwHGU9pvdU/edit) | ✅ Accepted |
-| [Sprint 3](sprint-3) | Testing Web Applications | Payment card validation (EC/BV, test cases) | [📊 Google Sheets](https://docs.google.com/spreadsheets/d/1tyb3C0jYfA0jdLqO3gJ0puDvY3OEUNAXka8Hxg9wG5U/edit) · [📋 Jira ESP3](https://rainsol.atlassian.net/jira/software/projects/ESP3/boards/3) | ✅ Accepted |
+| [Sprint 3](sprint-3) | Testing Web Applications | Payment card validation (EC/BV, test cases) | [📊 Google Sheets](https://docs.google.com/spreadsheets/d/1tyb3C0jYfA0jdLqO3gJ0puDvY3OEUNAXka8Hxg9wG5U/edit) · [📋 Jira ESP3](https://rainsol.atlassian.net/jira/software/projects/ESP3/boards/1) | ✅ Accepted |
 | [Sprint 4](sprint-4) | APIs | REST API testing — Kits & Fast Delivery endpoints | [📊 Google Sheets](https://docs.google.com/spreadsheets/d/1wETfopGNtrBu2jTMhzAn4BkMcdOnzyEM2QrP4468LoQ/edit) · [📬 Postman](postman/urban_routes_api_collection.json) | ✅ Accepted |
 | [Sprint 5](sprint-5) | Understanding Databases | SQL — data integrity queries | [🗄️ SQL file](sql/urban_routes_data_integrity.sql) | ✅ Complete |
 | [Sprint 6](sprint-6) | Testing Mobile Applications | Mobile checklist — Urban Lunch Android app | [📊 Google Sheets](https://docs.google.com/spreadsheets/d/16vPGkMI4pK5eJek2JdMuR2a2MiH25km0KZPszijaxUA/edit) | ✅ Accepted |
