@@ -3,7 +3,7 @@
 **Program:** TripleTen QA Engineering Apprenticeship
 **Projects:** Urban Routes (Ride-Hailing) · Urban Lunch (Food Delivery)
 **Author:** Efrain Solivan
-**Started:** July 2025 | **Progress:** Sprints 1–6 complete (67% of program)
+**Started:** July 2025 | **Progress:** Sprints 1–8 complete (89% of program)
 
 ---
 
