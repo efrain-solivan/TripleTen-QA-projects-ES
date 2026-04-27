@@ -41,7 +41,7 @@ Cross-browser issues found: **15+** (Chrome Â· Firefox Â· Edge)
 | [Sprint 4](sprint-4) | APIs | REST API testing â Kits & Fast Delivery endpoints | [ð Google Sheets](https://docs.google.com/spreadsheets/d/1wETfopGNtrBu2jTMhzAn4BkMcdOnzyEM2QrP4468LoQ/edit) Â· [ð¬ Postman](postman/urban_routes_api_collection.json) | â Accepted |
 | [Sprint 5](sprint-5) | Understanding Databases | SQL â data integrity queries | [ðï¸ SQL file](sql/urban_routes_data_integrity.sql) | â Complete |
 | [Sprint 6](sprint-6) | Testing Mobile Applications | Mobile checklist â Urban Lunch Android app | [ð Google Sheets](https://docs.google.com/spreadsheets/d/16vPGkMI4pK5eJek2JdMuR2a2MiH25km0KZPszijaxUA/edit) | â Accepted |
-| Sprint 7 | Python | *(in progress)* | â | ð In Progress |
+| Sprint 7 | Python | ✅ Accepted | — | ✅ Accepted |
 | Sprint 8 | Browser Automation | Selenium WebDriver â 9 E2E tests scripted (full order flow) | [ð¤ Selenium](selenium/test_urban_routes.py) | â Complete (9 E2E tests scripted and committed to repo) |
 | Sprint 9 | Final Project | Applied Testing â capstone | â | â³ Upcoming |
 
